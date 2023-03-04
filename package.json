@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "stylelint": "stylelint \"src/css/**/*.css\"",
-    "stylelint:fix": "stylelint \"src/css/**/*.css\" --fix",
     "editorconfig": "editorconfig-checker"
   },
   "keywords": [],

@@ -4,7 +4,7 @@
     display: grid;
     /* grid-template-columns: 458px 199px 165px 226px 232px; */
     /* grid-template-rows: 288px 185px 248px; */
-    grid-template-columns: 35.78% 15.55% 12.89% 17.66% 18.13%;
+    grid-template-columns: 1fr 15.55% 12.89% 17.66% 18.13%;
     grid-template-rows: 40vh 25vh 34.5vh;
 }
 
@@ -51,7 +51,7 @@
 
 @media (max-width: 992px) {
     .promo {
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: repeat(4, 25%);
         grid-template-rows: 40vh 25vh 34.5vh auto 40vh 60vh;
     }
 
@@ -104,7 +104,7 @@
 
 @media (max-width: 576px) {
     .promo {
-        grid-template-columns: 50vw 50vw;
+        grid-template-columns: repeat(2, 50vw);
         grid-template-rows: auto 34.5vh auto 35vh auto auto auto 30vh auto;
     }
 

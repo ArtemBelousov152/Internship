@@ -5,7 +5,8 @@
 }
 
 .culture__title {
-    margin: 125px 0 0 0;
+    margin: 0;
+    padding-top: 125px;
     width: 330px;
     font-weight: 600;
     font-size: 64px;
@@ -42,7 +43,7 @@
     }
 
     .culture__title {
-        margin-top: 40px;
+        padding-top: 40px;
     }
 
     .culture__icons {
