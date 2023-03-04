@@ -1,0 +1,32 @@
+.descr {
+    background-color: #828282;
+    color: #F2F2F2;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 95px 48px 64px 65px;
+}
+
+.descr__text {
+    margin: 0;
+}
+
+@media (min-width: 1536px) {
+    .descr {
+        text-align: center;
+    }
+}
+
+@media (max-width: 1200px) {
+    .descr {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .descr__text {
+        text-align: center;
+        width: 230px;
+    }
+}
