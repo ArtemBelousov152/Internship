@@ -37,7 +37,13 @@
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 992px) {
+    .culture__title {
+        padding-top: 80px;
+    }
+}
+
+@media (max-width: 768px) {
     .culture {
         padding-bottom: 40px;
     }
