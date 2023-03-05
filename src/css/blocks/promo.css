@@ -2,8 +2,6 @@
     font-family: Inter, sans-serif;
     box-sizing: border-box;
     display: grid;
-    /* grid-template-columns: 458px 199px 165px 226px 232px; */
-    /* grid-template-rows: 288px 185px 248px; */
     grid-template-columns: 1fr 15.55% 12.89% 17.66% 18.13%;
     grid-template-rows: 40.5vh 25.5vh 34.5vh;
 }
