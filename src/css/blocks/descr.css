@@ -30,3 +30,9 @@
         width: 230px;
     }
 }
+
+@media (max-width: 320px) {
+    .descr__text {
+        padding: 10px;
+    }
+}
