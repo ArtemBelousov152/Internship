@@ -3,7 +3,7 @@
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 15.55% 12.89% 17.66% 18.13%;
-    grid-template-rows: 40.5vh 25.5vh 34.5vh;
+    grid-template-rows: 40vh 25.5vh 34.5vh;
 }
 
 .promo__black-hat {

@@ -1,0 +1,20 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+@import './blocks/brown-block.css';
+@import './blocks/culture.css';
+@import './blocks/descr.css';
+@import './blocks/image.css';
+@import './blocks/promo.css';
+@import './blocks/red-block.css';
+
+picture {
+    display: block;
+    height: 100%;
+}
+
+html {
+    line-height: 0;
+}
+
+p {
+    margin: 0;
+}
