@@ -67,19 +67,44 @@ console.log(quickSort(arr));
 
 // Задача 3
 
+// function queue() {
+//     setTimeout(() => {
+//         console.log('hello');
+//         document.querySelector('.some-class').style.color = 'red';
+//     }, 0);
+
+//     setTimeout(() => {
+//         console.log('hello2');
+//         console.log('hello3');
+//     }, 0);
+
+//     setTimeout(() => {
+//         console.log('hell4');
+//         document.querySelector('.some-class').textContent = 'hello5';
+//     }, 0);
+// }
+
 function queue() {
     setTimeout(() => {
-        console.log('hello');
-        document.querySelector('.some-class').style.color = 'red';
+        fetch('https://jsonplaceholder.typicode.com/posts/1')
+            .then(response => response.json())
+            .then(json => console.log(json.title + `1`))
+            // .then(json => document.querySelector('.some-class').textContent = json.title);
+        
     }, 0);
 
     setTimeout(() => {
-        console.log('hello2');
-        console.log('hello3');
+        fetch('https://jsonplaceholder.typicode.com/posts/1')
+            .then(response => response.json())
+            .then(json => console.log(json + `2`));
     }, 0);
 
     setTimeout(() => {
-        console.log('hell4');
-        document.querySelector('.some-class').textContent = 'hello5';
+        fetch('https://jsonplaceholder.typicode.com/posts/1')
+            .then(response => response.json())
+            .then(json => console.log(json.body + `3`))
+            // .then(json => document.querySelector('.some-class').textContent = json.body);
     }, 0);
 }
+
+queue();
