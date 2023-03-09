@@ -67,43 +67,47 @@ console.log(quickSort(arr));
 
 // Задача 3
 
-// function queue() {
-//     setTimeout(() => {
-//         console.log('hello');
-//         document.querySelector('.some-class').style.color = 'red';
-//     }, 0);
-
-//     setTimeout(() => {
-//         console.log('hello2');
-//         console.log('hello3');
-//     }, 0);
-
-//     setTimeout(() => {
-//         console.log('hell4');
-//         document.querySelector('.some-class').textContent = 'hello5';
-//     }, 0);
-// }
-
 function queue() {
     setTimeout(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts/1')
-            .then(response => response.json())
-            .then(json => console.log(json.title + `1`))
-            // .then(json => document.querySelector('.some-class').textContent = json.title);
-        
+        Promise.resolve.then(() => console.log('hello'))
+        document.querySelector('.some-class').style.color = 'red';
     }, 0);
 
     setTimeout(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts/1')
-            .then(response => response.json())
-            .then(json => console.log(json + `2`));
+        Promise.resolve.then(() => console.log('hello2'))
+        Promise.resolve.then(() => console.log('hello3'))
     }, 0);
 
     setTimeout(() => {
+        Promise.resolve.then(() => console.log('hello4'))
+        document.querySelector('.some-class').textContent = 'hello5';
+    }, 0);
+}
+
+function queue() {
+    // document.querySelector('.some-btn').addEventListener(() => {
+    //     fetch('https://jsonplaceholder.typicode.com/posts/1')
+    //         .then(response =>{
+    //             const {title} = response.json();
+
+    //             document.querySelector('.some-class').textContent = title;
+    //         })
+    // })
+
+    // setTimeout(() => {
+    //     fetch('https://jsonplaceholder.typicode.com/posts/1')
+    //         .then(response => response.json())
+    //         .then(json => console.log(json ));
+    // }, 0);
+
+    setTimeout(() => {
         fetch('https://jsonplaceholder.typicode.com/posts/1')
-            .then(response => response.json())
-            .then(json => console.log(json.body + `3`))
-            // .then(json => document.querySelector('.some-class').textContent = json.body);
+            .then(response => {
+                const data = response.json();
+                console.log(data);
+                // document.querySelector('.some-class').textContent = body;
+            })
+            
     }, 0);
 }
 
