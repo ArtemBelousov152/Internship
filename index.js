@@ -94,7 +94,7 @@ function queue() {
 //     setTimeout(() => {
 //         fetch('https://jsonplaceholder.typicode.com/posts/1')
 //             .then(response => response.json())
-//             .then(json => console.log(json + `2`));
+//             .then(json => console.log(json));
 //     }, 0);
 
 //     setTimeout(() => {
