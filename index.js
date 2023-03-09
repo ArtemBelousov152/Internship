@@ -69,46 +69,39 @@ console.log(quickSort(arr));
 
 function queue() {
     setTimeout(() => {
-        Promise.resolve.then(() => console.log('hello'))
+        Promise.resolve.then(() => console.log('hello'));
         document.querySelector('.some-class').style.color = 'red';
     }, 0);
 
     setTimeout(() => {
-        Promise.resolve.then(() => console.log('hello2'))
-        Promise.resolve.then(() => console.log('hello3'))
+        Promise.resolve.then(() => console.log('hello2'));
+        Promise.resolve.then(() => console.log('hello3'));
     }, 0);
 
     setTimeout(() => {
-        Promise.resolve.then(() => console.log('hello4'))
+        Promise.resolve.then(() => console.log('hello4'));
         document.querySelector('.some-class').textContent = 'hello5';
     }, 0);
 }
 
-function queue() {
-    // document.querySelector('.some-btn').addEventListener(() => {
-    //     fetch('https://jsonplaceholder.typicode.com/posts/1')
-    //         .then(response =>{
-    //             const {title} = response.json();
+// function queue() {
+//     document.querySelector('.some-btn').addEventListener(() => {
+//         fetch('https://jsonplaceholder.typicode.com/posts/1')
+//             .then(response => response.json())
+//             .then(json => document.querySelector('.some-class').textContent = json.title);
+//     })
 
-    //             document.querySelector('.some-class').textContent = title;
-    //         })
-    // })
+//     setTimeout(() => {
+//         fetch('https://jsonplaceholder.typicode.com/posts/1')
+//             .then(response => response.json())
+//             .then(json => console.log(json + `2`));
+//     }, 0);
 
-    // setTimeout(() => {
-    //     fetch('https://jsonplaceholder.typicode.com/posts/1')
-    //         .then(response => response.json())
-    //         .then(json => console.log(json ));
-    // }, 0);
-
-    setTimeout(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts/1')
-            .then(response => {
-                const data = response.json();
-                console.log(data);
-                // document.querySelector('.some-class').textContent = body;
-            })
-            
-    }, 0);
-}
+//     setTimeout(() => {
+//         fetch('https://jsonplaceholder.typicode.com/posts/1')
+//             .then(response => response.json())
+//             .then(json => document.querySelector('.some-class').textContent = json.body);
+//     }, 0);
+// }
 
 queue();
