@@ -99,9 +99,9 @@ const deleteTasksById = (id) => new Promise((resolve, reject) => {
     xhr.send();
 })
 
-getTasks({})
-    .then(data => console.log(data))
-    .catch(error => console.warn(error));
+// getTasks({})
+//     .then(data => console.log(data))
+//     .catch(error => console.warn(error));
 
 // postTasks(false, 'hello', 'some-text')
 //     .then(data => console.log(data))

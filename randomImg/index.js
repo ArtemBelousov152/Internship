@@ -17,6 +17,8 @@ async function getImg() {
     }
 }
 
+getImg().then(data => img.src = data.message)
+
 btn.addEventListener('click', () => {
     btn.disabled = true;
     getImg()
