@@ -10,6 +10,7 @@ function sum(num) {
     }
 
     plus.toString = () => total;
+    plus.valueOf = () => total;
 
     return plus;
 }
