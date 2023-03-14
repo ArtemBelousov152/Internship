@@ -1,14 +1,22 @@
 // Задача 1
 
 function sum(num) {
-    return function (num2) {
-        return function (num3) {
-            return num + num2 + num3;
-        }
+    
+    let total = num;
+
+    function plus(num2) {
+        total += num2;
+        return plus;
     }
+
+    plus.toString = () => total;
+
+    return plus;
 }
 
-console.log(sum(2)(3)(5));
+console.log(sum(1)(2) + sum(5)(10));
+console.log(`${sum(2)(3)(5)}`)
+alert(sum(2)(3)(5));
 
 // Задача 2 
 
@@ -69,17 +77,17 @@ console.log(quickSort(arr));
 
 function queue() {
     setTimeout(() => {
-        Promise.resolve.then(() => console.log('hello'));
+        Promise.resolve().then(() => console.log('hello'));
         document.querySelector('.some-class').style.color = 'red';
     }, 0);
 
     setTimeout(() => {
-        Promise.resolve.then(() => console.log('hello2'));
-        Promise.resolve.then(() => console.log('hello3'));
+        Promise.resolve().then(() => console.log('hello2'));
+        Promise.resolve().then(() => console.log('hello3'));
     }, 0);
 
     setTimeout(() => {
-        Promise.resolve.then(() => console.log('hello4'));
+        Promise.resolve().then(() => console.log('hello4'));
         document.querySelector('.some-class').textContent = 'hello5';
     }, 0);
 }
