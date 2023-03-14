@@ -15,7 +15,7 @@ function sum(num) {
 }
 
 console.log(sum(1)(2) + sum(5)(10));
-console.log(`${sum(2)(3)(5)}`)
+console.log(`${sum(2)(3)(5)(10)(25)}`)
 alert(sum(2)(3)(5));
 
 // Задача 2 
@@ -78,17 +78,17 @@ console.log(quickSort(arr));
 function queue() {
     setTimeout(() => {
         Promise.resolve().then(() => console.log('hello'));
-        document.querySelector('.some-class').style.color = 'red';
+        document.querySelector('body').style.color = 'red';
+    }, 0);
+
+    setTimeout(() => {
+        Promise.resolve().then(() => console.log('hello4'));
+        document.querySelector('body').textContent = 'hello5';
     }, 0);
 
     setTimeout(() => {
         Promise.resolve().then(() => console.log('hello2'));
         Promise.resolve().then(() => console.log('hello3'));
-    }, 0);
-
-    setTimeout(() => {
-        Promise.resolve().then(() => console.log('hello4'));
-        document.querySelector('.some-class').textContent = 'hello5';
     }, 0);
 }
 
