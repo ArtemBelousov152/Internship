@@ -33,6 +33,7 @@ class BaseAgent {
 }
 
 class FormatString {
+  // Получает объект с параметрами запроса и превращает их в строку
   setParams = (object?: GetParams): string => {
     if (object) {
       const paramsArray: string[] = [];
@@ -124,9 +125,9 @@ class TasksAgent extends BaseAgent {
     }
   };
 
-  deleteTask = async (id: number): Promise<TaskResponse | null> => {
+  deleteTask = async (id: number): Promise<Record<string, never> | null> => {
     try {
-      const res = await this.fetch<TaskResponse>(`/tasks/${id}`, {
+      const res = await this.fetch<Record<string, never>>(`/tasks/${id}`, {
         method: 'DELETE',
       });
 
@@ -151,4 +152,4 @@ taskAgent.postTask({
   isImportant: true,
 });
 taskAgent.patchTask(999, { info: 'test2' });
-taskAgent.deleteTask(1869);
+taskAgent.deleteTask(700);
