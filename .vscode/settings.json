@@ -1,5 +1,4 @@
 {
-  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
@@ -8,8 +7,6 @@
   "scss.validate": false,
   "stylelint.validate": [
     "css",
-    "scss",
-    "typescript",
-    "typescriptreact"
+    "scss"
   ]
 }

@@ -25,6 +25,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:import/recommended',
+    'plugin:react/recommended',
     'plugin:prettier/recommended', // Make sure this is always the last element in the array.
   ],
   settings: {
@@ -43,9 +44,10 @@ module.exports = {
   rules: {
     'import/order': 'error',
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     'no-unused-vars': 'warn',
-    '@typescript-eslint/no-empty-function': 'off',
-    '@typescript-eslint/explicit-function-return-type': ['warn'],
+    'no-console': 'warn',
   },
-  ignorePatterns: ['lib/*'],
 };
