@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 export interface SearchInputProps {
-  onChange: (text: string) => void;
+  onChange: (value: string) => void;
   value: string;
   onReset?: () => void;
 }
