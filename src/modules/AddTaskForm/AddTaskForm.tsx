@@ -1,6 +1,7 @@
 import React, { useState, MouseEvent } from 'react';
 import { TextField } from 'components/TextField';
 import { Checkbox } from 'components/Checkbox';
+import { TaskForm } from 'components/TaskForm';
 
 export const AddTaskForm = () => {
   const [taskName, setTaskName] = useState('');
@@ -32,18 +33,24 @@ export const AddTaskForm = () => {
   };
 
   return (
-    <form>
-      <TextField label="TaskName" placeholder="Clean room" value={taskName} onChange={onNameTaskChange} />
-      <TextField
-        label="What to do(description)"
-        placeholder="Clean my room"
-        value={taskInfo}
-        onChange={onInfoTaskChange}
-      />
-      <Checkbox label="Important" checked={taskImportant} onChange={onTaskIsImportant} />
-      <button onClick={onSubmit} style={{ width: '100%' }} className="btn btn-secondary d-block ml-auto">
-        Edit Task
-      </button>
-    </form>
+    <TaskForm
+      onInfoTaskChange={onInfoTaskChange}
+      onNameTaskChange={onNameTaskChange}
+      onTaskIsImportant={onTaskIsImportant}
+      onSubmit={onSubmit}
+    />
+    // <form>
+    //   <TextField label="TaskName" placeholder="Clean room" value={taskName} onChange={onNameTaskChange} />
+    //   <TextField
+    //     label="What to do(description)"
+    //     placeholder="Clean my room"
+    //     value={taskInfo}
+    //     onChange={onInfoTaskChange}
+    //   />
+    //   <Checkbox label="Important" checked={taskImportant} onChange={onTaskIsImportant} />
+    //   <button onClick={onSubmit} style={{ width: '100%' }} className="btn btn-secondary d-block ml-auto">
+    //     Edit Task
+    //   </button>
+    // </form>
   );
 };
