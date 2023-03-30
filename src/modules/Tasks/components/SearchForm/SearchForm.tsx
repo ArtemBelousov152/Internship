@@ -1,12 +1,15 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useState, useCallback, memo } from 'react';
 import { StatusFilter } from '../StatusFilter';
+import { TaskStoreInstanse } from '../../store';
 import { SearchInput } from 'components/SearchInput';
 import './SearchForm.css';
 import { StatusFilterTypes } from 'domains/Tasks.entity';
 
-export const SearchForm = () => {
+const SearchFormComponent = () => {
   const [searchValue, setSearchValue] = useState('');
   const [statusFilterValue, setStatusFilterValue] = useState<StatusFilterTypes>('All');
+
+  const { loadData } = TaskStoreInstanse;
 
   const onSearchInputChange = (value: string) => {
     setSearchValue(value);
@@ -16,14 +19,20 @@ export const SearchForm = () => {
     setSearchValue('');
   };
 
-  const onFilterTypeChange = (value: StatusFilterTypes) => {
-    setStatusFilterValue(value);
-  };
+  const onFilterTypeChange = useCallback(
+    () => (value: StatusFilterTypes) => {
+      setStatusFilterValue(value);
+    },
+    [setStatusFilterValue]
+  );
 
   const onSubmit = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     setSearchValue('');
-    console.log(`Поиск по значению: ${searchValue} и фильтру ${statusFilterValue}`);
+    loadData({
+      searchValue,
+      statusFilterValue,
+    });
   };
 
   return (
@@ -36,3 +45,5 @@ export const SearchForm = () => {
     </form>
   );
 };
+
+export const SearchForm = memo(SearchFormComponent);

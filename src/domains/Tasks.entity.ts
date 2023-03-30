@@ -14,6 +14,11 @@ export interface TasksStatsEntity {
   done: number;
 }
 
-export type NewTaskEntity = Omit<TaskEntity, 'isDone'>;
+export type NewTaskEntity = Omit<TaskEntity, 'isDone' | 'id'>;
 
 export type StatusFilterTypes = typeof STATUS_FILTER_TYPES[keyof typeof STATUS_FILTER_TYPES];
+
+export interface SearchFormEntity {
+  searchValue: string;
+  statusFilterValue: StatusFilterTypes;
+}

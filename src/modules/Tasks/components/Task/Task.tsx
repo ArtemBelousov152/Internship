@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { TaskProps } from './Task.types';
 import { ROOT, EDIT } from 'constants/paths';
 
-export const Task = ({ task }: TaskProps) => {
+export const Task = ({ task, onDelTask, onTaskComplete, onTaskIsImportant }: TaskProps) => {
   const { id, info, isDone, isImportant, name } = task;
 
   return (
@@ -18,6 +18,7 @@ export const Task = ({ task }: TaskProps) => {
 
         <div className="task__btns">
           <button
+            onClick={() => onTaskIsImportant(id, isImportant)}
             type="button"
             className={`task__btn btn ${
               isImportant ? 'btn-success' : 'btn-outline-success'
@@ -27,12 +28,16 @@ export const Task = ({ task }: TaskProps) => {
           </button>
 
           <button
+            onClick={() => onTaskComplete(id, isDone)}
             type="button"
             className={`task__btn btn ${isDone ? 'btn-danger' : 'btn-outline-danger'} btn-sm float-right`}>
             <i className="fa fa-check" />
           </button>
 
-          <button type="button" className="task__btn btn btn-outline-danger btn-sm float-right btn-delete">
+          <button
+            onClick={() => onDelTask(id)}
+            type="button"
+            className="task__btn btn btn-outline-danger btn-sm float-right btn-delete">
             <i className="fa fa-trash-o" />
           </button>
           <Link className="task__btn btn btn-outline-secondary btn-sm float-right" to={`${ROOT}${EDIT}/${id}`}>

@@ -1,56 +1,78 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { memo } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
+import { AddTaskFormInstanse } from './store';
+import { AddTaskFormValidationSchema } from './AddTaskForm.validation';
+import { AddTaskFormDefaultValues } from './AddTaskForm.constants';
 import { TextField } from 'components/TextField';
 import { Checkbox } from 'components/Checkbox';
-import { TaskForm } from 'components/TaskForm';
+import { NewTaskEntity } from 'domains/Tasks.entity';
 
-export const AddTaskForm = () => {
-  const [taskName, setTaskName] = useState('');
-  const [taskInfo, setTaskInfo] = useState('');
-  const [taskImportant, setTaskImportant] = useState(false);
+export const AddTaskFormComponent = () => {
+  const { createTask } = AddTaskFormInstanse;
+  const nav = useNavigate();
+
+  const { control, setValue, handleSubmit } = useForm<NewTaskEntity>({
+    defaultValues: AddTaskFormDefaultValues,
+    resolver: yupResolver(AddTaskFormValidationSchema),
+  });
 
   const onNameTaskChange = (value: string) => {
-    setTaskName(value);
+    setValue('name', value);
   };
 
   const onInfoTaskChange = (value: string) => {
-    setTaskInfo(value);
+    setValue('info', value);
   };
 
   const onTaskIsImportant = (value: boolean) => {
-    setTaskImportant(value);
+    setValue('isImportant', value);
   };
 
-  const onSubmit = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.preventDefault();
-    console.log(
-      `Название задачи: ${taskName} \n
-       Информация о задаче: ${taskInfo} \n
-       Важная задача: ${taskImportant} \n`
-    );
-    setTaskName('');
-    setTaskInfo('');
-    setTaskImportant(false);
+  const onSubmit = (data: NewTaskEntity) => {
+    createTask(data);
+    nav('/');
   };
 
   return (
-    <TaskForm
-      onInfoTaskChange={onInfoTaskChange}
-      onNameTaskChange={onNameTaskChange}
-      onTaskIsImportant={onTaskIsImportant}
-      onSubmit={onSubmit}
-    />
-    // <form>
-    //   <TextField label="TaskName" placeholder="Clean room" value={taskName} onChange={onNameTaskChange} />
-    //   <TextField
-    //     label="What to do(description)"
-    //     placeholder="Clean my room"
-    //     value={taskInfo}
-    //     onChange={onInfoTaskChange}
-    //   />
-    //   <Checkbox label="Important" checked={taskImportant} onChange={onTaskIsImportant} />
-    //   <button onClick={onSubmit} style={{ width: '100%' }} className="btn btn-secondary d-block ml-auto">
-    //     Edit Task
-    //   </button>
-    // </form>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        control={control}
+        name="name"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            label="TaskName"
+            placeholder="Clean room"
+            value={field.value}
+            onChange={onNameTaskChange}
+            errorText={error?.message}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="info"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            label="TaskName"
+            placeholder="Clean room"
+            value={field.value}
+            onChange={onInfoTaskChange}
+            errorText={error?.message}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="isImportant"
+        render={({ field }) => <Checkbox label="Important" checked={field.value} onChange={onTaskIsImportant} />}
+      />
+      <button type="submit" className="btn btn-secondary d-block ml-auto w-100">
+        Add Task
+      </button>
+    </form>
   );
 };
+
+export const AddTaskForm = memo(AddTaskFormComponent);
