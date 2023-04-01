@@ -6,6 +6,7 @@ import { delay } from 'helpers/delay';
 
 class TaskStore {
   constructor() {
+    this._isLoading = false;
     makeObservable<this, PrivateFields>(this, {
       _taskStats: observable,
       _tasks: observable,
@@ -15,10 +16,10 @@ class TaskStore {
       taskStats: computed,
       isLoading: computed,
 
-      loadData: action,
-      delTask: action,
-      changeTaskComplete: action,
-      changeTaskIsImportant: action,
+      loadData: action.bound,
+      delTask: action.bound,
+      changeTaskComplete: action.bound,
+      changeTaskIsImportant: action.bound,
     });
   }
 
@@ -28,7 +29,7 @@ class TaskStore {
     important: 0,
     total: 0,
   };
-  private _isLoading = false;
+  private _isLoading: boolean;
 
   get isLoading(): boolean {
     return this._isLoading;
@@ -42,10 +43,8 @@ class TaskStore {
     return this._taskStats;
   }
 
-  loadData = async (searchParams?: SearchFormEntity) => {
+  async loadData(searchParams?: SearchFormEntity) {
     this._isLoading = true;
-
-    console.log('load');
 
     if (searchParams) {
       console.log(`найти задачу с названием ${searchParams.searchValue} и фильтром ${searchParams.statusFilterValue}`);
@@ -58,25 +57,25 @@ class TaskStore {
       this._taskStats = TasksStatsMock;
       this._isLoading = false;
     });
-  };
+  }
 
-  delTask = (id: TaskEntity['id']) => {
+  delTask(id: TaskEntity['id']) {
     console.log(`удалить заначу по id: ${id}`);
 
     this.loadData();
-  };
+  }
 
-  changeTaskComplete = (id: TaskEntity['id'], prevStatus: boolean) => {
+  changeTaskComplete(id: TaskEntity['id'], prevStatus: boolean) {
     console.log(`Изменить значение complete задачи по id ${id} c ${prevStatus} на ${!prevStatus}`);
 
     this.loadData();
-  };
+  }
 
-  changeTaskIsImportant = (id: TaskEntity['id'], prevStatus: boolean) => {
+  changeTaskIsImportant(id: TaskEntity['id'], prevStatus: boolean) {
     console.log(`Изменить значение important задачи по id ${id} c ${prevStatus} на ${!prevStatus}`);
 
     this.loadData();
-  };
+  }
 }
 
 export const TaskStoreInstanse = new TaskStore();

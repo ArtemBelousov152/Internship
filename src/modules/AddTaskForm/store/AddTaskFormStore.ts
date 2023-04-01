@@ -4,13 +4,13 @@ import { NewTaskEntity } from 'domains/Tasks.entity';
 class AddTaskFormStore {
   constructor() {
     makeObservable(this, {
-      createTask: action,
+      createTask: action.bound,
     });
   }
 
-  createTask = (newTask: NewTaskEntity) => {
+  createTask(newTask: NewTaskEntity) {
     console.log(newTask);
-  };
+  }
 }
 
 export const AddTaskFormInstanse = new AddTaskFormStore();

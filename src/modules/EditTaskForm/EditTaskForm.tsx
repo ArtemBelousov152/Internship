@@ -1,12 +1,17 @@
 import React, { useState, MouseEvent, memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+import { EditTaskFormDefaultValues } from './EditTaskForm.constants';
 import { TextField } from 'components/TextField';
 import { Checkbox } from 'components/Checkbox';
 import { TasksMock } from '__mocks__/Tasks.mock';
-import { TaskEntity } from 'domains/Tasks.entity';
+import { EditTaskEntity, TaskEntity } from 'domains/Tasks.entity';
 import { ROOT } from 'constants/paths';
 
 export const EditTaskFormComponent = () => {
+  const { control, setValue, handleSubmit } = useForm<EditTaskEntity>({
+    defaultValues: EditTaskFormDefaultValues,
+  });
   const { taskId } = useParams();
   const navigate = useNavigate();
   const { info, isDone, isImportant, name } = TasksMock.find((task) => task.id === taskId) as TaskEntity;
