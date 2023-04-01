@@ -1,14 +1,18 @@
-interface TaskResponse {
+const ROOT_URL = 'https://intership-liga.ru';
+
+interface Task {
   name: string;
   info: string;
   isImportant: boolean;
-  isCompleted: boolean;
-  id: number;
 }
 
-type TaskPost = Omit<TaskResponse, 'id' | 'isCompleted'>;
+interface TaskPatch extends Partial<Task> {
+  isCompleted?: boolean;
+}
 
-type TaskPatch = Partial<Omit<TaskResponse, 'id'>>;
+interface TaskResponse extends TaskPatch {
+  id: number;
+}
 
 interface GetParams extends Partial<Pick<TaskResponse, 'isCompleted' | 'isImportant'>> {
   name_like?: string;
@@ -54,10 +58,10 @@ class TasksAgent extends BaseAgent {
   private formatter = new FormatString();
 
   constructor() {
-    super('https://intership-liga.ru');
+    super(ROOT_URL);
   }
 
-  getTasks = async (params?: GetParams): Promise<TaskResponse[] | null> => {
+  getTasks = async (params?: GetParams): Promise<TaskResponse[]> => {
     try {
       const tasks = await this.fetch<TaskResponse[]>(`/tasks${this.formatter.setParams(params)}`);
 
@@ -67,11 +71,11 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      return null;
+      throw new Error(error);
     }
   };
 
-  getTasksById = async (id: number): Promise<TaskResponse | null> => {
+  getTasksById = async (id: number): Promise<TaskResponse> => {
     try {
       const task = await this.fetch<TaskResponse>(`/tasks/${id}`);
 
@@ -81,11 +85,11 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      return null;
+      throw new Error(error);
     }
   };
 
-  postTask = async (task: TaskPost): Promise<TaskResponse | null> => {
+  postTask = async (task: Task): Promise<TaskResponse> => {
     try {
       const res = await this.fetch<TaskResponse>(`/tasks`, {
         method: 'POST',
@@ -101,11 +105,11 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      return null;
+      throw new Error(error);
     }
   };
 
-  patchTask = async (id: number, task: TaskPatch): Promise<TaskResponse | null> => {
+  patchTask = async (id: number, task: TaskPatch): Promise<TaskResponse> => {
     try {
       const res = await this.fetch<TaskResponse>(`/tasks/${id}`, {
         method: 'PATCH',
@@ -121,11 +125,11 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      return null;
+      throw new Error(error);
     }
   };
 
-  deleteTask = async (id: number): Promise<Record<string, never> | null> => {
+  deleteTask = async (id: number): Promise<Record<string, never>> => {
     try {
       const res = await this.fetch<Record<string, never>>(`/tasks/${id}`, {
         method: 'DELETE',
@@ -137,7 +141,7 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      return null;
+      throw new Error(error);
     }
   };
 }
@@ -151,5 +155,5 @@ taskAgent.postTask({
   name: 'test-name',
   isImportant: true,
 });
-taskAgent.patchTask(999, { info: 'test2' });
+taskAgent.patchTask(999, { info: 'dsaasd' });
 taskAgent.deleteTask(700);
