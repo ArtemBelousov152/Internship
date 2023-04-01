@@ -71,7 +71,7 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -85,7 +85,7 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -105,7 +105,7 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -125,7 +125,7 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -141,19 +141,19 @@ class TasksAgent extends BaseAgent {
     } catch (error) {
       console.log(error.message);
 
-      throw new Error(error);
+      throw error;
     }
   };
 }
 
 const taskAgent = new TasksAgent();
 
-taskAgent.getTasks();
-taskAgent.getTasksById(999);
-taskAgent.postTask({
-  info: 'test',
-  name: 'test-name',
-  isImportant: true,
-});
-taskAgent.patchTask(999, { info: 'dsaasd' });
+// taskAgent.getTasks();
+// taskAgent.getTasksById(999);
+// taskAgent.postTask({
+//   info: 'test',
+//   name: 'test-name',
+//   isImportant: true,
+// });
+// taskAgent.patchTask(999, { info: 'dsaasd' });
 taskAgent.deleteTask(700);
