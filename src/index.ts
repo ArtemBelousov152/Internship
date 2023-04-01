@@ -10,7 +10,8 @@ interface TaskPatch extends Partial<Task> {
   isCompleted?: boolean;
 }
 
-interface TaskResponse extends TaskPatch {
+interface TaskResponse extends Task {
+  isCompleted: boolean;
   id: number;
 }
 
