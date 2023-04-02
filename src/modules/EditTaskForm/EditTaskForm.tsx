@@ -1,67 +1,105 @@
-import React, { useState, MouseEvent, memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { EditTaskFormDefaultValues } from './EditTaskForm.constants';
+import { EditTaskFormValidationSchema } from './EditTaskForm.validation';
+// import { EditTaskStoreInstanse } from './store';
 import { TextField } from 'components/TextField';
 import { Checkbox } from 'components/Checkbox';
-import { TasksMock } from '__mocks__/Tasks.mock';
-import { EditTaskEntity, TaskEntity } from 'domains/Tasks.entity';
+import { EditTaskEntity } from 'domains/Tasks.entity';
 import { ROOT } from 'constants/paths';
 
 export const EditTaskFormComponent = () => {
-  const { control, setValue, handleSubmit } = useForm<EditTaskEntity>({
+  const { control, setValue, handleSubmit, getValues } = useForm<EditTaskEntity>({
     defaultValues: EditTaskFormDefaultValues,
+    resolver: yupResolver(EditTaskFormValidationSchema),
   });
+  // const { loadTask } = EditTaskStoreInstanse;
   const { taskId } = useParams();
   const navigate = useNavigate();
-  const { info, isDone, isImportant, name } = TasksMock.find((task) => task.id === taskId) as TaskEntity;
-  const [taskName, setTaskName] = useState(name);
-  const [taskInfo, setTaskInfo] = useState(info);
-  const [taskImportant, setTaskImportant] = useState(isImportant);
-  const [taskCompleted, setTaskCompleted] = useState(isDone);
+
+  // useEffect(() => {
+  //   if (taskId) {
+  //     loadTask(taskId);
+  //   }
+  // });
 
   const onNameTaskChange = (value: string) => {
-    setTaskName(value);
+    setValue('name', value);
   };
 
   const onInfoTaskChange = (value: string) => {
-    setTaskInfo(value);
+    setValue('info', value);
   };
 
   const onTaskIsImportant = (value: boolean) => {
-    setTaskImportant(value);
+    setValue('isImportant', value);
   };
 
   const onTaskIsCompleted = (value: boolean) => {
-    setTaskCompleted(value);
-    if (taskImportant) {
-      setTaskImportant(false);
+    setValue('isCompleted', value);
+    if (getValues().isImportant) {
+      setValue('isImportant', false);
     }
   };
 
-  const onSubmit = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.preventDefault();
+  const onSubmit = (data: EditTaskEntity) => {
     console.log(
-      `Название задачи: ${taskName} \n
-       Информация о задаче: ${taskInfo} \n
-       Важная задача: ${taskImportant} \n
-       Задача выполнена: ${taskCompleted}`
+      `Название задачи: ${data.name} \n
+       Информация о задаче: ${data.info} \n
+       Важная задача: ${data.isImportant} \n
+       Задача выполнена: ${data.isCompleted}`
     );
     navigate(ROOT);
   };
 
   return (
-    <form>
-      <TextField label="TaskName" placeholder="Clean room" value={taskName} onChange={onNameTaskChange} />
-      <TextField
-        label="What to do(description)"
-        placeholder="Clean my room"
-        value={taskInfo}
-        onChange={onInfoTaskChange}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        control={control}
+        name="name"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            label="TaskName"
+            placeholder="Clean room"
+            value={field.value}
+            onChange={onNameTaskChange}
+            errorText={error?.message}
+          />
+        )}
       />
-      <Checkbox label="Important" checked={taskImportant} onChange={onTaskIsImportant} disabled={taskCompleted} />
-      <Checkbox label="Completed" checked={taskCompleted} onChange={onTaskIsCompleted} />
-      <button type="submit" onClick={onSubmit} className="btn btn-secondary d-block ml-auto w-100">
+      <Controller
+        control={control}
+        name="info"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            label="TaskName"
+            placeholder="Clean room"
+            value={field.value}
+            onChange={onInfoTaskChange}
+            errorText={error?.message}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="isImportant"
+        render={({ field }) => (
+          <Checkbox
+            disabled={getValues().isCompleted}
+            label="Important"
+            checked={field.value}
+            onChange={onTaskIsImportant}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="isCompleted"
+        render={({ field }) => <Checkbox label="Complete" checked={field.value} onChange={onTaskIsCompleted} />}
+      />
+      <button type="submit" className="btn btn-secondary d-block ml-auto w-100">
         Edit Task
       </button>
     </form>

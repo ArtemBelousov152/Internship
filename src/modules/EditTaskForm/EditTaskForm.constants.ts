@@ -4,5 +4,5 @@ export const EditTaskFormDefaultValues: EditTaskEntity = {
   name: '',
   info: '',
   isImportant: false,
-  isDone: false,
+  isCompleted: false,
 };

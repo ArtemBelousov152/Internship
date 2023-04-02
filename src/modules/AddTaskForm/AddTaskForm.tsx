@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { AddTaskFormInstanse } from './store';
 import { AddTaskFormValidationSchema } from './AddTaskForm.validation';
-import { AddTaskFormDefaultValues } from './AddTaskForm.constants';
+import { DEFAULT_VALUE } from './AddTaskForm.constants';
 import { TextField } from 'components/TextField';
 import { Checkbox } from 'components/Checkbox';
 import { NewTaskEntity } from 'domains/Tasks.entity';
@@ -13,8 +13,8 @@ export const AddTaskFormComponent = () => {
   const { createTask } = AddTaskFormInstanse;
   const nav = useNavigate();
 
-  const { control, setValue, handleSubmit } = useForm<NewTaskEntity>({
-    defaultValues: AddTaskFormDefaultValues,
+  const { control, setValue, handleSubmit } = useForm({
+    defaultValues: DEFAULT_VALUE,
     resolver: yupResolver(AddTaskFormValidationSchema),
   });
 
@@ -31,8 +31,7 @@ export const AddTaskFormComponent = () => {
   };
 
   const onSubmit = (data: NewTaskEntity) => {
-    createTask(data);
-    nav('/');
+    createTask(data).then(() => nav('/'));
   };
 
   return (

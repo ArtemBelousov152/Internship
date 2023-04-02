@@ -3,9 +3,9 @@ import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
 export interface TaskEntity {
   name: string;
   info: string;
-  id: string;
+  id: number;
   isImportant: boolean;
-  isDone: boolean;
+  isCompleted: boolean;
 }
 
 export interface TasksStatsEntity {
@@ -14,7 +14,7 @@ export interface TasksStatsEntity {
   done: number;
 }
 
-export type NewTaskEntity = Omit<TaskEntity, 'isDone' | 'id'>;
+export type NewTaskEntity = Omit<TaskEntity, 'isCompleted' | 'id'>;
 
 export type EditTaskEntity = Omit<TaskEntity, 'id'>;
 

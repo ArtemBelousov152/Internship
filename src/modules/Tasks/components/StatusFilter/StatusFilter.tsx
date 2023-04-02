@@ -3,13 +3,15 @@ import { StatusFilterProps } from './StatusFilte.types';
 import { StatusFilterTypes } from 'domains/Tasks.entity';
 import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
 
-const StatusFilterComponent = ({ onChange, activeFilter }: StatusFilterProps) => {
+const StatusFilterComponent = ({ onChange, activeFilter, disabled }: StatusFilterProps) => {
   const statusFilterChange = (evt: MouseEvent<HTMLDivElement> & { target: HTMLButtonElement }) => {
-    onChange(evt.target.textContent as StatusFilterTypes);
+    if (!disabled) onChange(evt.target.textContent as StatusFilterTypes);
   };
+
   const setClass = (filterType: StatusFilterTypes) => {
     return activeFilter === filterType ? 'btn btn-info' : 'btn btn-outline-secondary';
   };
+
   return (
     <div className="btn-group" onClick={statusFilterChange}>
       <button type="button" className={setClass(STATUS_FILTER_TYPES.ALL)}>
