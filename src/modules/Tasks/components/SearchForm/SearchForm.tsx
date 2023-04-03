@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback, memo } from 'react';
+import React, { useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { useForm, Controller } from 'react-hook-form';
 import { StatusFilter } from '../StatusFilter';
@@ -6,13 +6,12 @@ import { TaskStoreInstanse } from '../../store';
 import { DEFAULT_VALUE } from './SearchForm.constants';
 import { SearchInput } from 'components/SearchInput';
 import './SearchForm.css';
-import { StatusFilterTypes } from 'domains/Tasks.entity';
+import { SearchFormEntity, StatusFilterTypes } from 'domains/Tasks.entity';
 
 const SearchFormComponent = () => {
   const { control, setValue, reset, handleSubmit } = useForm({
     defaultValues: DEFAULT_VALUE,
   });
-  const { loadData, isLoading } = TaskStoreInstanse;
 
   const onSearchInputChange = (value: string) => {
     setValue('searchValue', value);
@@ -29,22 +28,20 @@ const SearchFormComponent = () => {
     [setValue]
   );
 
-  const onSubmit = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.preventDefault();
-    handleSubmit((data) => {
-      loadData(data);
-    })();
+  const onSubmit = (data: SearchFormEntity) => {
+    TaskStoreInstanse.loadData(data);
+
     reset();
   };
 
   return (
-    <form className="search-form d-flex justify-content-between">
+    <form onSubmit={handleSubmit(onSubmit)} className="search-form d-flex justify-content-between">
       <Controller
         control={control}
         name="searchValue"
         render={({ field }) => (
           <SearchInput
-            disabled={isLoading}
+            disabled={TaskStoreInstanse.isLoading}
             onChange={onSearchInputChange}
             value={field.value}
             onReset={searchInputReset}
@@ -56,11 +53,15 @@ const SearchFormComponent = () => {
         control={control}
         name="statusFilterValue"
         render={({ field }) => (
-          <StatusFilter disabled={isLoading} onChange={onFilterTypeChange} activeFilter={field.value} />
+          <StatusFilter
+            disabled={TaskStoreInstanse.isLoading}
+            onChange={onFilterTypeChange}
+            activeFilter={field.value}
+          />
         )}
       />
 
-      <button disabled={isLoading} onClick={onSubmit} className="btn btn-primary">
+      <button disabled={TaskStoreInstanse.isLoading} className="btn btn-primary">
         Find
       </button>
     </form>

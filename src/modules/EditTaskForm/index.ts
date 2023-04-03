@@ -1,1 +1,1 @@
-export * from './EditTaskForm';
+export * from './EditTaskForm.module';

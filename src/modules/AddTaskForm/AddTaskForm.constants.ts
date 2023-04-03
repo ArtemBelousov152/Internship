@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import { NewTaskEntity } from 'domains/Tasks.entity';
 
 export const DEFAULT_VALUE: NewTaskEntity = {
@@ -5,3 +6,8 @@ export const DEFAULT_VALUE: NewTaskEntity = {
   info: '',
   isImportant: false,
 };
+
+export const VALIDATION_SCHEMA = Yup.object().shape({
+  name: Yup.string().required('Обязательное поле'),
+  info: Yup.string().required('Обязательное поле'),
+});

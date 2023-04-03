@@ -11,15 +11,11 @@ class TasksAgent extends BaseAgent {
   getTasks = async (params?: SearchFormEntity): Promise<TaskEntity[]> => {
     const tasks = await this.fetch<TaskEntity[]>(`/tasks${setParams(params)}`);
 
-    console.log('Все задачи получены', tasks);
-
     return tasks;
   };
 
   getTasksById = async (id: number): Promise<TaskEntity> => {
     const task = await this.fetch<TaskEntity>(`/tasks/${id}`);
-
-    console.log(`Получена задача по id: ${id}`, task);
 
     return task;
   };
@@ -33,8 +29,6 @@ class TasksAgent extends BaseAgent {
       },
     });
 
-    console.log(`Задача отправлена`, res);
-
     return res;
   };
 
@@ -47,8 +41,6 @@ class TasksAgent extends BaseAgent {
       },
     });
 
-    console.log(`Задача изменена`, res);
-
     return res;
   };
 
@@ -56,8 +48,6 @@ class TasksAgent extends BaseAgent {
     const res = await this.fetch<Record<string, never>>(`/tasks/${id}`, {
       method: 'DELETE',
     });
-
-    console.log(`Задача по id:${id} удалена`, res);
 
     return res;
   };

@@ -1,7 +1,6 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { PrivateFields } from './Task.store.types';
 import { SearchFormEntity, TaskEntity, TasksStatsEntity } from 'domains/Tasks.entity';
-import { TasksStatsMock } from '__mocks__/Tasks.mock';
 import { taskAgent } from 'http/agent';
 import { TaskStatsCalc } from 'helpers/TaskStatcCalc';
 
@@ -59,7 +58,9 @@ class TaskStore {
 
       throw error;
     } finally {
-      this._isLoading = false;
+      runInAction(() => {
+        this._isLoading = false;
+      });
     }
   }
 
@@ -80,6 +81,7 @@ class TaskStore {
   async changeTaskComplete(id: TaskEntity['id'], prevStatus: boolean) {
     try {
       await taskAgent.patchTask(id, { isCompleted: !prevStatus });
+      await taskAgent.patchTask(id, { isImportant: false });
     } catch (error) {
       console.log(error);
 

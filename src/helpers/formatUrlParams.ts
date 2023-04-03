@@ -24,7 +24,7 @@ export const setParams = (formValue?: SearchFormEntity): string => {
   const paramsArray: string[] = [];
 
   if (searchValue !== '') {
-    paramsArray.push(searchValue);
+    paramsArray.push(`name_like=${searchValue}`);
   }
 
   switch (statusFilterValue) {

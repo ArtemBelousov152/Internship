@@ -4,10 +4,8 @@ import { SearchForm, TaskList, TaskStats } from './components';
 import { TaskStoreInstanse } from './store';
 
 export const TasksComponent = () => {
-  const { loadData } = TaskStoreInstanse;
-
   useEffect(() => {
-    loadData();
+    TaskStoreInstanse.loadData();
   });
   return (
     <>

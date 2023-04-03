@@ -6,18 +6,16 @@ import { Loader } from 'components/Loader';
 import './Task.css';
 
 const TaskListComponent = () => {
-  const { changeTaskComplete, changeTaskIsImportant, delTask, isLoading, tasks } = TaskStoreInstanse;
-
   return (
-    <Loader isLoading={isLoading} variant="circle">
+    <Loader isLoading={TaskStoreInstanse.isLoading} variant="circle">
       <ul className="list-group todo-list mb-3">
-        {tasks.map((task) => (
+        {TaskStoreInstanse.tasks.map((task) => (
           <li key={task.id} className="list-group-item">
             <Task
               task={task}
-              onDelTask={delTask}
-              onTaskComplete={changeTaskComplete}
-              onTaskIsImportant={changeTaskIsImportant}
+              onDelTask={TaskStoreInstanse.delTask}
+              onTaskComplete={TaskStoreInstanse.changeTaskComplete}
+              onTaskIsImportant={TaskStoreInstanse.changeTaskIsImportant}
             />
           </li>
         ))}
