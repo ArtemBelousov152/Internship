@@ -9,7 +9,7 @@ import './SearchForm.css';
 import { SearchFormEntity, StatusFilterTypes } from 'domains/Tasks.entity';
 
 const SearchFormComponent = () => {
-  const { control, setValue, reset, handleSubmit } = useForm({
+  const { control, setValue, handleSubmit } = useForm({
     defaultValues: DEFAULT_VALUE,
   });
 
@@ -29,9 +29,7 @@ const SearchFormComponent = () => {
   );
 
   const onSubmit = (data: SearchFormEntity) => {
-    TaskStoreInstanse.loadData(data);
-
-    reset();
+    TaskStoreInstanse.loadTasks(data);
   };
 
   return (

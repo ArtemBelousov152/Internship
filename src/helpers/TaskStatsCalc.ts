@@ -1,15 +1,14 @@
-import { TaskEntity, TasksStatsEntity } from 'domains/Tasks.entity';
+import { TasksStatsEntity } from 'domains/Tasks.entity';
+import { GetAllTasksResponse } from 'http/model';
 
-export const TaskStatsCalc = (tasks: TaskEntity[]): TasksStatsEntity => {
+export const TaskStatsCalc = (tasks: GetAllTasksResponse): TasksStatsEntity => {
   const result: TasksStatsEntity = {
     done: 0,
     important: 0,
-    total: 0,
+    total: tasks.length,
   };
 
   tasks.forEach((item) => {
-    result.total++;
-
     if (item.isImportant) {
       result.important++;
     }

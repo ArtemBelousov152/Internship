@@ -5,7 +5,7 @@ import { TaskStoreInstanse } from './store';
 
 export const TasksComponent = () => {
   useEffect(() => {
-    TaskStoreInstanse.loadData();
+    TaskStoreInstanse.loadTasks();
   });
   return (
     <>

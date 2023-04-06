@@ -3,7 +3,7 @@ import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
 export interface TaskEntity {
   name: string;
   info: string;
-  id: number;
+  id: string;
   isImportant: boolean;
   isCompleted: boolean;
 }

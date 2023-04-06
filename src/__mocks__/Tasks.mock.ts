@@ -9,28 +9,28 @@ export const TasksStatsMock: TasksStatsEntity = {
 export const TasksMock: TaskEntity[] = [
   {
     name: 'Wash',
-    id: 222,
+    id: '222',
     info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     isImportant: false,
     isCompleted: true,
   },
   {
     name: 'Clean',
-    id: 666,
+    id: '666',
     info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     isImportant: true,
     isCompleted: false,
   },
   {
     name: 'Watch',
-    id: 444,
+    id: '444',
     info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     isImportant: true,
     isCompleted: false,
   },
   {
     name: 'Make',
-    id: 111,
+    id: '111',
     info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     isImportant: false,
     isCompleted: false,

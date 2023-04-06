@@ -1,7 +1,8 @@
 import { action, computed, makeObservable, observable, runInAction, reaction } from 'mobx';
 import { PrivateFields } from './EditTask.store.types';
 import { EditTaskEntity, TaskEntity } from 'domains/Tasks.entity';
-import { taskAgent } from 'http/agent';
+import { TaskAgentInstance } from 'http/agent';
+import { NormalizeTask } from 'helpers/TasksNormalizer';
 
 class EditTaskStore {
   constructor() {
@@ -20,19 +21,13 @@ class EditTaskStore {
     });
     reaction(
       () => this._id,
-      () => (this._id !== 0 ? this.loadTask(this._id) : null)
+      () => (this._id !== '0' ? this.loadTask(this._id) : null)
     );
   }
 
-  private _task: TaskEntity = {
-    id: 0,
-    name: '',
-    info: '',
-    isCompleted: false,
-    isImportant: false,
-  };
+  private _task: TaskEntity | null = null;
 
-  get task(): TaskEntity {
+  get task(): TaskEntity | null {
     return this._task;
   }
 
@@ -42,9 +37,9 @@ class EditTaskStore {
     return this._isLoading;
   }
 
-  private _id = 0;
+  private _id = '0';
 
-  get id(): number {
+  get id(): string {
     return this._id;
   }
 
@@ -52,10 +47,10 @@ class EditTaskStore {
     this._isLoading = true;
 
     try {
-      const res = await taskAgent.getTasksById(id);
+      const res = await TaskAgentInstance.getTaskById(id);
 
       runInAction(() => {
-        this._task = res;
+        this._task = NormalizeTask(res);
       });
     } catch (error) {
       console.log(error);
@@ -72,7 +67,7 @@ class EditTaskStore {
     this._isLoading = true;
 
     try {
-      await taskAgent.patchTask(id, newTask);
+      await TaskAgentInstance.patchTask(id, newTask);
     } catch (error) {
       console.log(error);
 

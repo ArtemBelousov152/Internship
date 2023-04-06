@@ -1,49 +1,33 @@
 import { SearchFormEntity } from 'domains/Tasks.entity';
+import { GetAllTasksQuery } from 'http/model';
+import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
 
-// export const setParams = (object?: GetParams): string => {
-//   console.log(object);
-//   if (object) {
-//     const paramsArray: string[] = [];
-//     let key: keyof GetParams;
-
-//     for (key in object) {
-//       paramsArray.push(`${key}=${object[key]}`);
-//     }
-
-//     return `?${paramsArray.join('&')}`;
-//   }
-
-//   return '';
-// };
-
-export const setParams = (formValue?: SearchFormEntity): string => {
-  if (!formValue) {
-    return '';
-  }
+export const FormatUrlParams = (formValue: SearchFormEntity): GetAllTasksQuery | undefined => {
   const { searchValue, statusFilterValue } = formValue;
-  const paramsArray: string[] = [];
+
+  const formatParams: GetAllTasksQuery = {};
 
   if (searchValue !== '') {
-    paramsArray.push(`name_like=${searchValue}`);
+    formatParams.name_like = searchValue;
   }
 
   switch (statusFilterValue) {
-    case 'All': {
+    case STATUS_FILTER_TYPES.ALL: {
       break;
     }
-    case 'Active': {
-      paramsArray.push('isCompleted=false');
+    case STATUS_FILTER_TYPES.ACTIVE: {
+      formatParams.isCompleted = false;
       break;
     }
-    case 'Done': {
-      paramsArray.push('isCompleted=true');
+    case STATUS_FILTER_TYPES.DONE: {
+      formatParams.isCompleted = true;
       break;
     }
-    case 'Important': {
-      paramsArray.push('isImportant=true');
+    case STATUS_FILTER_TYPES.IMPORTANT: {
+      formatParams.isImportant = true;
       break;
     }
   }
 
-  return `?${paramsArray.join('&')}`;
+  return formatParams;
 };

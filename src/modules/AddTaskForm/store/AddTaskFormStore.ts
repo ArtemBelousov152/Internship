@@ -1,6 +1,6 @@
 import { action, makeObservable } from 'mobx';
 import { NewTaskEntity } from 'domains/Tasks.entity';
-import { taskAgent } from 'http/agent';
+import { TaskAgentInstance } from 'http/agent';
 
 class AddTaskFormStore {
   constructor() {
@@ -11,7 +11,7 @@ class AddTaskFormStore {
 
   async createTask(newTask: NewTaskEntity) {
     try {
-      await taskAgent.postTask(newTask);
+      await TaskAgentInstance.postTask(newTask);
     } catch (error) {
       console.log(error);
 

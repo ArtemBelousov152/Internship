@@ -12,26 +12,29 @@ import { PATH_LIST } from 'constants/paths';
 import { Loader } from 'components/Loader';
 
 export const EditTaskFormComponent = () => {
-  const { control, setValue, handleSubmit, getValues, reset, resetField } = useForm<EditTaskEntity>({
+  const { control, setValue, handleSubmit, getValues, reset, watch } = useForm<EditTaskEntity>({
     defaultValues: DEFAULT_VALUES,
     resolver: yupResolver(VALIDATION_SCHEMA),
   });
 
   const { taskId } = useParams();
   const navigate = useNavigate();
+  const isCompletedWatch = watch('isCompleted');
 
   useEffect(() => {
     if (taskId) {
-      EditTaskStoreInstanse.setId(+taskId);
+      EditTaskStoreInstanse.setId(taskId);
     }
 
     return () => {
-      EditTaskStoreInstanse.setId(0);
+      EditTaskStoreInstanse.setId('0');
     };
   }, []);
 
   useEffect(() => {
-    reset(EditTaskStoreInstanse.task);
+    if (EditTaskStoreInstanse.task) {
+      reset(EditTaskStoreInstanse.task);
+    }
   }, [EditTaskStoreInstanse.task]);
 
   const onNameTaskChange = (value: string) => {
@@ -48,7 +51,7 @@ export const EditTaskFormComponent = () => {
 
   const onTaskIsCompleted = (value: boolean) => {
     setValue('isCompleted', value);
-    resetField('isImportant');
+
     if (getValues().isImportant) {
       setValue('isImportant', false);
     }
@@ -61,49 +64,55 @@ export const EditTaskFormComponent = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Loader isLoading={EditTaskStoreInstanse.isLoading} variant="circle">
-        <Controller
-          control={control}
-          name="name"
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="TaskName"
-              placeholder="Clean room"
-              value={field.value}
-              onChange={onNameTaskChange}
-              errorText={error?.message}
+        {EditTaskStoreInstanse.task ? (
+          <>
+            <Controller
+              control={control}
+              name="name"
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label="TaskName"
+                  placeholder="Clean room"
+                  value={field.value}
+                  onChange={onNameTaskChange}
+                  errorText={error?.message}
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name="info"
-          render={({ field, fieldState: { error } }) => (
-            <TextField
-              label="TaskName"
-              placeholder="Clean room"
-              value={field.value}
-              onChange={onInfoTaskChange}
-              errorText={error?.message}
+            <Controller
+              control={control}
+              name="info"
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label="TaskName"
+                  placeholder="Clean room"
+                  value={field.value}
+                  onChange={onInfoTaskChange}
+                  errorText={error?.message}
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name="isImportant"
-          render={({ field }) => (
-            <Checkbox
-              disabled={getValues().isCompleted}
-              label="Important"
-              checked={field.value}
-              onChange={onTaskIsImportant}
+            <Controller
+              control={control}
+              name="isImportant"
+              render={({ field }) => (
+                <Checkbox
+                  disabled={isCompletedWatch}
+                  label="Important"
+                  checked={field.value}
+                  onChange={onTaskIsImportant}
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          control={control}
-          name="isCompleted"
-          render={({ field }) => <Checkbox label="Complete" checked={field.value} onChange={onTaskIsCompleted} />}
-        />
+            <Controller
+              control={control}
+              name="isCompleted"
+              render={({ field }) => <Checkbox label="Complete" checked={field.value} onChange={onTaskIsCompleted} />}
+            />
+          </>
+        ) : (
+          <p>Задача не найдена</p>
+        )}
       </Loader>
       <button type="submit" className="btn btn-secondary d-block ml-auto w-100">
         Edit Task

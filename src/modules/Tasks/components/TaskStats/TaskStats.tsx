@@ -9,19 +9,31 @@ export const TaskStatsComponent = () => {
       <span className="mb-3">
         Total:{' '}
         <Loader isLoading={TaskStoreInstanse.isLoading} variant="dot">
-          <span className="badge bg-secondary">{TaskStoreInstanse.taskStats.total}</span>
+          {TaskStoreInstanse.taskStats ? (
+            <span className="badge bg-secondary">{TaskStoreInstanse.taskStats.total}</span>
+          ) : (
+            <p>Нет данных</p>
+          )}
         </Loader>
       </span>
       <span className="mb-3">
         Important:{' '}
         <Loader isLoading={TaskStoreInstanse.isLoading} variant="dot">
-          <span className="badge bg-secondary">{TaskStoreInstanse.taskStats.important}</span>
+          {TaskStoreInstanse.taskStats ? (
+            <span className="badge bg-secondary">{TaskStoreInstanse.taskStats.important}</span>
+          ) : (
+            <p>Нет данных</p>
+          )}
         </Loader>
       </span>
       <span className="mb-3">
         Done:{' '}
         <Loader isLoading={TaskStoreInstanse.isLoading} variant="dot">
-          <span className="badge bg-secondary">{TaskStoreInstanse.taskStats.done}</span>
+          {TaskStoreInstanse.taskStats ? (
+            <span className="badge bg-secondary">{TaskStoreInstanse.taskStats.done}</span>
+          ) : (
+            <p>Нет данных</p>
+          )}
         </Loader>
       </span>
     </div>

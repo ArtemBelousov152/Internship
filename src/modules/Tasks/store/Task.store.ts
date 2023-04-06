@@ -1,8 +1,8 @@
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { PrivateFields } from './Task.store.types';
 import { SearchFormEntity, TaskEntity, TasksStatsEntity } from 'domains/Tasks.entity';
-import { taskAgent } from 'http/agent';
-import { TaskStatsCalc } from 'helpers/TaskStatcCalc';
+import { TaskAgentInstance } from 'http/agent';
+import { TaskStatsCalc, FormatUrlParams, NormalizeTasks } from 'helpers/index';
 
 class TaskStore {
   constructor() {
@@ -15,48 +15,47 @@ class TaskStore {
       taskStats: computed,
       isLoading: computed,
 
-      loadData: action.bound,
+      loadTasks: action.bound,
       delTask: action.bound,
       changeTaskComplete: action.bound,
       changeTaskIsImportant: action.bound,
     });
   }
 
-  private _tasks: TaskEntity[] = [];
+  private _tasks: TaskEntity[] | null = null;
 
-  private _taskStats: TasksStatsEntity = {
-    done: 0,
-    important: 0,
-    total: 0,
-  };
+  private _taskStats: TasksStatsEntity | null = null;
   private _isLoading = false;
 
   get isLoading(): boolean {
     return this._isLoading;
   }
 
-  get tasks(): TaskEntity[] {
+  get tasks(): TaskEntity[] | null {
     return this._tasks;
   }
 
-  get taskStats(): TasksStatsEntity {
+  get taskStats(): TasksStatsEntity | null {
     return this._taskStats;
   }
 
-  async loadData(searchParams?: SearchFormEntity) {
+  async loadTasks(searchParams?: SearchFormEntity) {
     this._isLoading = true;
 
     try {
-      const result = searchParams ? await taskAgent.getTasks(searchParams) : await taskAgent.getTasks();
+      const result = searchParams
+        ? await TaskAgentInstance.getTasks(FormatUrlParams(searchParams))
+        : await TaskAgentInstance.getTasks();
 
       runInAction(() => {
-        this._tasks = result;
+        this._tasks = NormalizeTasks(result);
         this._taskStats = TaskStatsCalc(result);
       });
-    } catch (error) {
-      console.log(error);
-
-      throw error;
+    } catch {
+      runInAction(() => {
+        this._tasks = null;
+        this._taskStats = null;
+      });
     } finally {
       runInAction(() => {
         this._isLoading = false;
@@ -66,7 +65,7 @@ class TaskStore {
 
   async delTask(id: TaskEntity['id']) {
     try {
-      await taskAgent.deleteTask(id);
+      await TaskAgentInstance.deleteTask(id);
     } catch (error) {
       console.log(error);
 
@@ -75,32 +74,32 @@ class TaskStore {
       this._isLoading = false;
     }
 
-    this.loadData();
+    this.loadTasks();
   }
 
   async changeTaskComplete(id: TaskEntity['id'], prevStatus: boolean) {
     try {
-      await taskAgent.patchTask(id, { isCompleted: !prevStatus });
-      await taskAgent.patchTask(id, { isImportant: false });
+      await TaskAgentInstance.patchTask(id, { isCompleted: !prevStatus });
+      await TaskAgentInstance.patchTask(id, { isImportant: false });
     } catch (error) {
       console.log(error);
 
       throw error;
     }
 
-    this.loadData();
+    this.loadTasks();
   }
 
   async changeTaskIsImportant(id: TaskEntity['id'], prevStatus: boolean) {
     try {
-      await taskAgent.patchTask(id, { isImportant: !prevStatus });
+      await TaskAgentInstance.patchTask(id, { isImportant: !prevStatus });
     } catch (error) {
       console.log(error);
 
       throw error;
     }
 
-    this.loadData();
+    this.loadTasks();
   }
 }
 
