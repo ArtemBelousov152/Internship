@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PageContainer } from 'components/PageContainer';
-import { PATH_LIST } from 'constants/paths';
-import { Tasks } from 'modules/Tasks';
+import { PageContainer } from 'components/index';
+import { PATH_LIST } from 'constants/index';
+import { Tasks } from 'modules/index';
 
 export const TaskPage = () => {
   return (

@@ -1,4 +1,4 @@
-import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
+import { STATUS_FILTER_TYPES } from 'constants/index';
 
 export interface TaskEntity {
   name: string;

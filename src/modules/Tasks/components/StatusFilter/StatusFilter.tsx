@@ -1,9 +1,9 @@
 import React, { memo, MouseEvent } from 'react';
 import { StatusFilterProps } from './StatusFilte.types';
-import { StatusFilterTypes } from 'domains/Tasks.entity';
-import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
+import { StatusFilterTypes } from 'domains/index';
+import { STATUS_FILTER_TYPES } from 'constants/index';
 
-const StatusFilterComponent = ({ onChange, activeFilter, disabled }: StatusFilterProps) => {
+function StatusFilterComponent({ onChange, activeFilter, disabled }: StatusFilterProps) {
   const statusFilterChange = (evt: MouseEvent<HTMLDivElement> & { target: HTMLButtonElement }) => {
     if (!disabled) onChange(evt.target.textContent as StatusFilterTypes);
   };
@@ -28,6 +28,6 @@ const StatusFilterComponent = ({ onChange, activeFilter, disabled }: StatusFilte
       </button>
     </div>
   );
-};
+}
 
 export const StatusFilter = memo(StatusFilterComponent);

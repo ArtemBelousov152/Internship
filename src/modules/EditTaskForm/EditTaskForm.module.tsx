@@ -5,13 +5,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react';
 import { DEFAULT_VALUES, VALIDATION_SCHEMA } from './EditTaskForm.constants';
 import { EditTaskStoreInstanse } from './store';
-import { TextField } from 'components/TextField';
-import { Checkbox } from 'components/Checkbox';
-import { EditTaskEntity } from 'domains/Tasks.entity';
-import { PATH_LIST } from 'constants/paths';
-import { Loader } from 'components/Loader';
+import { TextField, Checkbox, Loader, Error } from 'components/index';
+import { EditTaskEntity } from 'domains/index';
+import { PATH_LIST } from 'constants/index';
 
-export const EditTaskFormComponent = () => {
+function EditTaskFormComponent() {
   const { control, setValue, handleSubmit, getValues, reset, watch } = useForm<EditTaskEntity>({
     defaultValues: DEFAULT_VALUES,
     resolver: yupResolver(VALIDATION_SCHEMA),
@@ -27,7 +25,7 @@ export const EditTaskFormComponent = () => {
     }
 
     return () => {
-      EditTaskStoreInstanse.setId('0');
+      EditTaskStoreInstanse.setId(null);
     };
   }, []);
 
@@ -58,13 +56,15 @@ export const EditTaskFormComponent = () => {
   };
 
   const onSubmit = (data: EditTaskEntity) => {
-    EditTaskStoreInstanse.sendTask(EditTaskStoreInstanse.id, data).then(() => navigate(PATH_LIST.ROOT));
+    if (EditTaskStoreInstanse.id) {
+      EditTaskStoreInstanse.sendTask(EditTaskStoreInstanse.id, data).then(() => navigate(PATH_LIST.ROOT));
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Loader isLoading={EditTaskStoreInstanse.isLoading} variant="circle">
-        {EditTaskStoreInstanse.task ? (
+        {EditTaskStoreInstanse.task && !EditTaskStoreInstanse.isError ? (
           <>
             <Controller
               control={control}
@@ -111,7 +111,7 @@ export const EditTaskFormComponent = () => {
             />
           </>
         ) : (
-          <p>Задача не найдена</p>
+          <Error />
         )}
       </Loader>
       <button type="submit" className="btn btn-secondary d-block ml-auto w-100">
@@ -119,6 +119,6 @@ export const EditTaskFormComponent = () => {
       </button>
     </form>
   );
-};
+}
 
 export const EditTaskForm = observer(EditTaskFormComponent);

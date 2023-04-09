@@ -1,6 +1,6 @@
-import { SearchFormEntity } from 'domains/Tasks.entity';
-import { GetAllTasksQuery } from 'http/model';
-import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
+import { SearchFormEntity } from 'domains/index';
+import { GetAllTasksQuery } from 'http/index';
+import { STATUS_FILTER_TYPES } from 'constants/index';
 
 export const FormatUrlParams = (formValue: SearchFormEntity): GetAllTasksQuery | undefined => {
   const { searchValue, statusFilterValue } = formValue;

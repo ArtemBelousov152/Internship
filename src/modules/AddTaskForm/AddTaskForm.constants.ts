@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { NewTaskEntity } from 'domains/Tasks.entity';
+import { NewTaskEntity } from 'domains/index';
 
 export const DEFAULT_VALUE: NewTaskEntity = {
   name: '',

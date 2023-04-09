@@ -33,14 +33,6 @@ class TasksAgent extends BaseAgent {
   };
 
   patchTask = async (id: string, task: PatchTaskRequest): Promise<PatchTaskResponse> => {
-    // const res = await this.fetch<TaskEntity>(`/tasks/${id}`, {
-    //   method: 'PATCH',
-    //   body: JSON.stringify(task),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
-
     const { data } = await this._http.patch<PatchTaskResponse>(`/tasks/${id}`, task);
 
     return data;

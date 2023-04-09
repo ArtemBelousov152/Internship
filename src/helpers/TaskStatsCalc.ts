@@ -1,5 +1,5 @@
-import { TasksStatsEntity } from 'domains/Tasks.entity';
-import { GetAllTasksResponse } from 'http/model';
+import { TasksStatsEntity } from 'domains/index';
+import { GetAllTasksResponse } from 'http/index';
 
 export const TaskStatsCalc = (tasks: GetAllTasksResponse): TasksStatsEntity => {
   const result: TasksStatsEntity = {

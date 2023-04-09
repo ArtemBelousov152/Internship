@@ -1,4 +1,4 @@
-import { StatusFilterTypes } from 'domains/Tasks.entity';
+import { StatusFilterTypes } from 'domains/index';
 
 export interface StatusFilterProps {
   activeFilter: StatusFilterTypes;

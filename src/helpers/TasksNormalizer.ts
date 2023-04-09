@@ -1,5 +1,5 @@
-import { TaskEntity } from 'domains/Tasks.entity';
-import { GetAllTasksResponse, GetTaskResponse } from 'http/model';
+import { TaskEntity } from 'domains/index';
+import { GetAllTasksResponse, GetTaskResponse } from 'http/index';
 
 export const NormalizeTask = (task: GetTaskResponse): TaskEntity => {
   return {

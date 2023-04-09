@@ -1,9 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { TaskPage } from 'pages/TaskPage';
-import { PATH_LIST } from 'constants/paths';
-import { EditTaskPage } from 'pages/EditTaskPage';
-import { AddTaskPage } from 'pages/AddTaskPage';
+import { TaskPage, EditTaskPage, AddTaskPage } from 'pages/index';
+import { PATH_LIST } from 'constants/index';
 
 export const Router = () => {
   return (

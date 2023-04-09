@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TaskProps } from './Task.types';
-import { ROOT, EDIT } from 'constants/paths';
+import { ROOT, EDIT } from 'constants/index';
 
-export const Task = ({ task, onDelTask, onTaskComplete, onTaskIsImportant }: TaskProps) => {
+export function Task({ task, onDelTask, onTaskComplete, onTaskIsImportant }: TaskProps) {
   const { id, info, isCompleted, isImportant, name } = task;
 
   return (
@@ -53,4 +53,4 @@ export const Task = ({ task, onDelTask, onTaskComplete, onTaskIsImportant }: Tas
       </p>
     </div>
   );
-};
+}

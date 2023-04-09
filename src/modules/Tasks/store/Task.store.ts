@@ -1,8 +1,9 @@
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { PrivateFields } from './Task.store.types';
-import { SearchFormEntity, TaskEntity, TasksStatsEntity } from 'domains/Tasks.entity';
-import { TaskAgentInstance } from 'http/agent';
+import { SearchFormEntity, TaskEntity, TasksStatsEntity } from 'domains/index';
+import { TaskAgentInstance } from 'http/index';
 import { TaskStatsCalc, FormatUrlParams, NormalizeTasks } from 'helpers/index';
+import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
 
 class TaskStore {
   constructor() {
@@ -10,11 +11,14 @@ class TaskStore {
       _taskStats: observable,
       _tasks: observable,
       _isLoading: observable,
+      _isError: observable,
+      _searchParams: observable,
 
       tasks: computed,
       taskStats: computed,
       isLoading: computed,
 
+      getTasks: action.bound,
       loadTasks: action.bound,
       delTask: action.bound,
       changeTaskComplete: action.bound,
@@ -22,84 +26,117 @@ class TaskStore {
     });
   }
 
-  private _tasks: TaskEntity[] | null = null;
-
-  private _taskStats: TasksStatsEntity | null = null;
+  private _tasks: TaskEntity[] = [];
+  private _taskStats: TasksStatsEntity = {
+    done: 0,
+    important: 0,
+    total: 0,
+  };
   private _isLoading = false;
+  private _isError = false;
+  private _searchParams: SearchFormEntity = {
+    searchValue: '',
+    statusFilterValue: STATUS_FILTER_TYPES.ALL,
+  };
 
   get isLoading(): boolean {
     return this._isLoading;
   }
 
-  get tasks(): TaskEntity[] | null {
+  get tasks(): TaskEntity[] {
     return this._tasks;
   }
 
-  get taskStats(): TasksStatsEntity | null {
+  get taskStats(): TasksStatsEntity {
     return this._taskStats;
+  }
+
+  get isError(): boolean {
+    return this._isError;
+  }
+
+  async getTasks(searchParams?: SearchFormEntity) {
+    const result = searchParams
+      ? await TaskAgentInstance.getTasks(FormatUrlParams(searchParams))
+      : await TaskAgentInstance.getTasks();
+
+    return {
+      tasks: NormalizeTasks(result),
+      taskStats: TaskStatsCalc(result),
+    };
   }
 
   async loadTasks(searchParams?: SearchFormEntity) {
     this._isLoading = true;
+    this._isError = false;
 
     try {
-      const result = searchParams
-        ? await TaskAgentInstance.getTasks(FormatUrlParams(searchParams))
-        : await TaskAgentInstance.getTasks();
+      if (searchParams) {
+        this._searchParams = searchParams;
+      }
 
-      runInAction(() => {
-        this._tasks = NormalizeTasks(result);
-        this._taskStats = TaskStatsCalc(result);
-      });
+      const { taskStats, tasks } = await this.getTasks(searchParams);
+
+      this._tasks = tasks;
+      this._taskStats = taskStats;
     } catch {
-      runInAction(() => {
-        this._tasks = null;
-        this._taskStats = null;
-      });
+      this._isError = true;
     } finally {
-      runInAction(() => {
-        this._isLoading = false;
-      });
+      this._isLoading = false;
     }
   }
 
   async delTask(id: TaskEntity['id']) {
+    this._isLoading = true;
+    this._isError = false;
+
     try {
       await TaskAgentInstance.deleteTask(id);
-    } catch (error) {
-      console.log(error);
+      const { taskStats, tasks } = await this.getTasks(this._searchParams);
 
-      throw error;
+      this._tasks = tasks;
+      this._taskStats = taskStats;
+    } catch {
+      this._isError = true;
     } finally {
       this._isLoading = false;
     }
-
-    this.loadTasks();
   }
 
   async changeTaskComplete(id: TaskEntity['id'], prevStatus: boolean) {
+    this._isLoading = true;
+    this._isError = false;
+
     try {
       await TaskAgentInstance.patchTask(id, { isCompleted: !prevStatus });
       await TaskAgentInstance.patchTask(id, { isImportant: false });
-    } catch (error) {
-      console.log(error);
 
-      throw error;
+      const { taskStats, tasks } = await this.getTasks(this._searchParams);
+
+      this._tasks = tasks;
+      this._taskStats = taskStats;
+    } catch {
+      this._isError = true;
+    } finally {
+      this._isLoading = false;
     }
-
-    this.loadTasks();
   }
 
   async changeTaskIsImportant(id: TaskEntity['id'], prevStatus: boolean) {
+    this._isLoading = true;
+    this._isError = false;
+
     try {
       await TaskAgentInstance.patchTask(id, { isImportant: !prevStatus });
-    } catch (error) {
-      console.log(error);
+      const { taskStats, tasks } = await this.getTasks(this._searchParams);
 
-      throw error;
+      this._tasks = tasks;
+      this._taskStats = taskStats;
+    } catch {
+      this._isError = true;
+    } finally {
+      this._isLoading = false;
     }
-
-    this.loadTasks();
   }
 }
 

@@ -1,4 +1,4 @@
-import { TaskEntity } from 'domains/Tasks.entity';
+import { TaskEntity } from 'domains/index';
 
 export interface TaskProps {
   task: TaskEntity;

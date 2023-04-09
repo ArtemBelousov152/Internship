@@ -1,8 +1,8 @@
-import { action, computed, makeObservable, observable, runInAction, reaction } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { PrivateFields } from './EditTask.store.types';
-import { EditTaskEntity, TaskEntity } from 'domains/Tasks.entity';
-import { TaskAgentInstance } from 'http/agent';
-import { NormalizeTask } from 'helpers/TasksNormalizer';
+import { EditTaskEntity, TaskEntity } from 'domains/index';
+import { TaskAgentInstance } from 'http/index';
+import { NormalizeTask } from 'helpers/index';
 
 class EditTaskStore {
   constructor() {
@@ -10,76 +10,76 @@ class EditTaskStore {
       _task: observable,
       _isLoading: observable,
       _id: observable,
+      _isError: observable,
 
       task: computed,
       isLoading: computed,
       id: computed,
 
-      loadTask: action.bound,
+      getTask: action.bound,
       sendTask: action.bound,
       setId: action.bound,
     });
     reaction(
       () => this._id,
-      () => (this._id !== '0' ? this.loadTask(this._id) : null)
+      () => (this._id ? this.getTask(this._id) : null)
     );
   }
 
   private _task: TaskEntity | null = null;
+  private _isLoading = false;
+  private _id: string | null = null;
+  private _isError = false;
 
   get task(): TaskEntity | null {
     return this._task;
   }
 
-  private _isLoading = false;
-
   get isLoading(): boolean {
     return this._isLoading;
   }
 
-  private _id = '0';
-
-  get id(): string {
+  get id(): string | null {
     return this._id;
   }
 
-  async loadTask(id: TaskEntity['id']) {
+  get isError(): boolean {
+    return this._isError;
+  }
+
+  async getTask(id: TaskEntity['id']) {
     this._isLoading = true;
+    this._isError = false;
 
     try {
       const res = await TaskAgentInstance.getTaskById(id);
 
-      runInAction(() => {
-        this._task = NormalizeTask(res);
-      });
+      this._task = NormalizeTask(res);
     } catch (error) {
-      console.log(error);
+      this._isError = true;
 
       throw error;
     } finally {
-      runInAction(() => {
-        this._isLoading = false;
-      });
+      this._isLoading = false;
     }
   }
 
   async sendTask(id: TaskEntity['id'], newTask: EditTaskEntity) {
     this._isLoading = true;
+    this._isError = false;
 
     try {
       await TaskAgentInstance.patchTask(id, newTask);
     } catch (error) {
-      console.log(error);
+      this._isError = true;
 
       throw error;
     } finally {
-      runInAction(() => {
-        this._isLoading = false;
-      });
+      this._isLoading = false;
     }
   }
 
-  setId(id: TaskEntity['id']) {
+  setId(id: TaskEntity['id'] | null) {
     this._id = id;
   }
 }

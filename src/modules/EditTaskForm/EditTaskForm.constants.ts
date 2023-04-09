@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { EditTaskEntity } from 'domains/Tasks.entity';
+import { EditTaskEntity } from 'domains/index';
 
 export const DEFAULT_VALUES: EditTaskEntity = {
   name: '',

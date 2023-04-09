@@ -1,7 +1,6 @@
 import React from 'react';
-import { PageContainer } from 'components/PageContainer';
-import { AddTaskForm } from 'modules/AddTaskForm';
-import { Title } from 'components/Title';
+import { PageContainer, Title } from 'components/index';
+import { AddTaskForm } from 'modules/index';
 
 export const AddTaskPage = () => {
   return (

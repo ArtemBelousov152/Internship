@@ -1,8 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PageContainer } from 'components/PageContainer';
-import { EditTaskForm } from 'modules/EditTaskForm';
-import { Title } from 'components/Title';
+import { PageContainer, Title } from 'components/index';
+import { EditTaskForm } from 'modules/index';
 
 export const EditTaskPage = () => {
   const { taskId } = useParams();
