@@ -1,56 +1,63 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { CardContent, ButtonGroup, Stack, Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { TaskProps } from './Task.types';
+import { TaskCard, TaskTypography } from './Task.styled';
 import { ROOT, EDIT } from 'constants/index';
 
 export function Task({ task, onDelTask, onTaskComplete, onTaskIsImportant }: TaskProps) {
   const { id, info, isCompleted, isImportant, name } = task;
+  const navigate = useNavigate();
+
+  const onBtnImportantClick = () => onTaskIsImportant(id, isImportant);
+
+  const onBtnDeleteClick = () => onDelTask(id);
+
+  const onBtnCompleteClick = () => onTaskComplete(id, isCompleted);
+
+  const onBtnEditClick = () => navigate(`${ROOT}${EDIT}/${id}`);
 
   return (
-    <div>
-      <div className="task mb-2">
-        <p
-          className={`task__label ${isCompleted ? 'text-decoration-line-through text-secondary' : ''} ${
-            isImportant ? 'text-success fw-bold' : ''
-          }`}>
-          {name}
-        </p>
+    <TaskCard component="li">
+      <CardContent>
+        <Stack component="div" direction="row" justifyContent="space-between" marginBottom={2}>
+          <TaskTypography color={isImportant ? 'green' : 'black'} width={350} isCompleted={isCompleted} component="h3">
+            {name}
+          </TaskTypography>
+          <ButtonGroup size="small">
+            <Button
+              variant={isImportant ? 'contained' : 'outlined'}
+              color="success"
+              onClick={onBtnImportantClick}
+              type="button"
+              disabled={isCompleted}>
+              <PriorityHighIcon />
+            </Button>
 
-        <div className="task__btns">
-          <button
-            onClick={() => onTaskIsImportant(id, isImportant)}
-            type="button"
-            className={`task__btn btn ${
-              isImportant ? 'btn-success' : 'btn-outline-success'
-            } btn-sm float-right btn-important`}
-            disabled={isCompleted}>
-            <i className="fa fa-exclamation" />
-          </button>
+            <Button
+              color="error"
+              variant={isCompleted ? 'contained' : 'outlined'}
+              onClick={onBtnCompleteClick}
+              type="button">
+              <CheckIcon />
+            </Button>
 
-          <button
-            onClick={() => onTaskComplete(id, isCompleted)}
-            type="button"
-            className={`task__btn btn ${isCompleted ? 'btn-danger' : 'btn-outline-danger'} btn-sm float-right`}>
-            <i className="fa fa-check" />
-          </button>
-
-          <button
-            onClick={() => onDelTask(id)}
-            type="button"
-            className="task__btn btn btn-outline-danger btn-sm float-right btn-delete">
-            <i className="fa fa-trash-o" />
-          </button>
-          <Link className="task__btn btn btn-outline-secondary btn-sm float-right" to={`${ROOT}${EDIT}/${id}`}>
-            <i className="fa fa-pencil" />
-          </Link>
-        </div>
-      </div>
-      <p
-        className={`${isCompleted ? 'text-decoration-line-through text-secondary' : ''} ${
-          isImportant ? 'text-success fw-bold' : ''
-        }`}>
-        {info}
-      </p>
-    </div>
+            <Button color="error" onClick={onBtnDeleteClick} type="button">
+              <DeleteIcon />
+            </Button>
+            <Button color="info" type="button" onClick={onBtnEditClick}>
+              <EditIcon />
+            </Button>
+          </ButtonGroup>
+        </Stack>
+        <TaskTypography color={isImportant ? 'green' : 'black'} isCompleted={isCompleted} component="p">
+          {info}
+        </TaskTypography>
+      </CardContent>
+    </TaskCard>
   );
 }

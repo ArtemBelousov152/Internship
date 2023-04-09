@@ -4,7 +4,7 @@ import { AddTaskForm } from 'modules/index';
 
 export const AddTaskPage = () => {
   return (
-    <PageContainer className="addTaskPage">
+    <PageContainer>
       <Title>Todo list | Add Todo</Title>
       <AddTaskForm />
     </PageContainer>

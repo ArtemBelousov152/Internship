@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react';
+import { Checkbox, FormControlLabel, Button, TextField, Stack, CircularProgress } from '@mui/material';
 import { DEFAULT_VALUES, VALIDATION_SCHEMA } from './EditTaskForm.constants';
 import { EditTaskStoreInstanse } from './store';
-import { TextField, Checkbox, Loader, Error } from 'components/index';
+import { Loader, Error } from 'components/index';
 import { EditTaskEntity } from 'domains/index';
 import { PATH_LIST } from 'constants/index';
 
@@ -35,20 +36,20 @@ function EditTaskFormComponent() {
     }
   }, [EditTaskStoreInstanse.task]);
 
-  const onNameTaskChange = (value: string) => {
-    setValue('name', value);
+  const onNameTaskChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue('name', event.target.value);
   };
 
-  const onInfoTaskChange = (value: string) => {
-    setValue('info', value);
+  const onInfoTaskChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue('info', event.target.value);
   };
 
-  const onTaskIsImportant = (value: boolean) => {
-    setValue('isImportant', value);
+  const onTaskIsImportant = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue('isImportant', event.target.checked);
   };
 
-  const onTaskIsCompleted = (value: boolean) => {
-    setValue('isCompleted', value);
+  const onTaskIsCompleted = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue('isCompleted', event.target.checked);
 
     if (getValues().isImportant) {
       setValue('isImportant', false);
@@ -61,63 +62,76 @@ function EditTaskFormComponent() {
     }
   };
 
+  if (EditTaskStoreInstanse.isError) {
+    return <Error />;
+  }
+
+  // eslint-disable-next-line no-constant-condition
+  if (EditTaskStoreInstanse.isLoading) {
+    return (
+      <Stack direction="row" justifyContent="center" margin="3rem 0 3rem 0" width="100%">
+        <CircularProgress size={100} />
+      </Stack>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Loader isLoading={EditTaskStoreInstanse.isLoading} variant="circle">
-        {EditTaskStoreInstanse.task && !EditTaskStoreInstanse.isError ? (
-          <>
-            <Controller
-              control={control}
-              name="name"
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  label="TaskName"
-                  placeholder="Clean room"
-                  value={field.value}
-                  onChange={onNameTaskChange}
-                  errorText={error?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="info"
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  label="TaskName"
-                  placeholder="Clean room"
-                  value={field.value}
-                  onChange={onInfoTaskChange}
-                  errorText={error?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="isImportant"
-              render={({ field }) => (
-                <Checkbox
-                  disabled={isCompletedWatch}
-                  label="Important"
-                  checked={field.value}
-                  onChange={onTaskIsImportant}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="isCompleted"
-              render={({ field }) => <Checkbox label="Complete" checked={field.value} onChange={onTaskIsCompleted} />}
-            />
-          </>
-        ) : (
-          <Error />
+    <Stack component="form" direction="column" spacing={4} marginTop={3} onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        control={control}
+        name="name"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            fullWidth
+            label="TaskName"
+            placeholder="Clean room"
+            value={field.value}
+            onChange={onNameTaskChange}
+            helperText={error?.message}
+            error={Boolean(error?.message)}
+          />
         )}
-      </Loader>
-      <button type="submit" className="btn btn-secondary d-block ml-auto w-100">
+      />
+      <Controller
+        control={control}
+        name="info"
+        render={({ field, fieldState: { error } }) => (
+          <TextField
+            fullWidth
+            label="TaskName"
+            placeholder="Clean room"
+            value={field.value}
+            onChange={onInfoTaskChange}
+            helperText={error?.message}
+            error={Boolean(error?.message)}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="isImportant"
+        render={({ field }) => (
+          <FormControlLabel
+            disabled={isCompletedWatch}
+            style={{ alignSelf: 'flex-start' }}
+            control={<Checkbox color="success" checked={field.value} onChange={onTaskIsImportant} />}
+            label="Important"></FormControlLabel>
+        )}
+      />
+      <Controller
+        control={control}
+        name="isCompleted"
+        render={({ field }) => (
+          <FormControlLabel
+            style={{ alignSelf: 'flex-start' }}
+            control={<Checkbox color="error" checked={field.value} onChange={onTaskIsCompleted} />}
+            label="Complete"></FormControlLabel>
+        )}
+      />
+      <Button variant="contained" color="inherit" type="submit">
         Edit Task
-      </button>
-    </form>
+      </Button>
+    </Stack>
   );
 }
 

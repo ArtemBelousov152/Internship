@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { useForm, Controller } from 'react-hook-form';
+import { Button, Stack } from '@mui/material';
 import { StatusFilter } from '../StatusFilter';
 import { TaskStoreInstanse } from '../../store';
 import { DEFAULT_VALUE } from './SearchForm.constants';
@@ -13,23 +14,16 @@ function SearchFormComponent() {
     defaultValues: DEFAULT_VALUE,
   });
 
-  const onSearchInputChange = (value: string) => {
-    setValue('searchValue', value);
-  };
+  const onSearchInputChange = (value: string) => setValue('searchValue', value);
 
-  const searchInputReset = () => {
-    setValue('searchValue', '');
-  };
+  const searchInputReset = () => setValue('searchValue', '');
 
-  const onFilterTypeChange = (value: StatusFilterTypes) => {
-    setValue('statusFilterValue', value);
-  };
-  const onSubmit = (data: SearchFormEntity) => {
-    TaskStoreInstanse.loadTasks(data);
-  };
+  const onFilterTypeChange = (value: StatusFilterTypes) => setValue('statusFilterValue', value);
+
+  const onSubmit = (data: SearchFormEntity) => TaskStoreInstanse.loadTasks(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="search-form d-flex justify-content-between">
+    <Stack onSubmit={handleSubmit(onSubmit)} direction="row" justifyContent="space-between" component="form">
       <Controller
         control={control}
         name="searchValue"
@@ -55,10 +49,10 @@ function SearchFormComponent() {
         )}
       />
 
-      <button disabled={TaskStoreInstanse.isLoading} className="btn btn-primary">
+      <Button type="submit" disabled={TaskStoreInstanse.isLoading} variant="contained">
         Find
-      </button>
-    </form>
+      </Button>
+    </Stack>
   );
 }
 

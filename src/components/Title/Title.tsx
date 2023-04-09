@@ -1,8 +1,13 @@
 import React, { memo } from 'react';
+import { Typography } from '@mui/material';
 import { TitleProps } from './Title.types';
 
 function TitleComponent({ children }: TitleProps) {
-  return <h1 style={{ textTransform: 'uppercase', textAlign: 'center' }}>{children}</h1>;
+  return (
+    <Typography component="h1" variant="h3" style={{ textTransform: 'uppercase', textAlign: 'center' }}>
+      {children}
+    </Typography>
+  );
 }
 
 export const Title = memo(TitleComponent);

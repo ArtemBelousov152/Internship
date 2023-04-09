@@ -6,3 +6,7 @@ export interface TaskProps {
   onTaskIsImportant: (id: TaskEntity['id'], prevStatus: boolean) => void;
   onDelTask: (id: TaskEntity['id']) => void;
 }
+
+export interface TypographyProps {
+  isCompleted: boolean;
+}

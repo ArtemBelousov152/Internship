@@ -1,33 +1,42 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { Stack, CircularProgress } from '@mui/material';
 import { Task } from '../Task';
 import { TaskStoreInstanse } from '../../store';
-import { Loader, Error } from 'components/index';
+import { Error } from 'components/index';
 import './Task.css';
 
 function TaskListComponent() {
   if (TaskStoreInstanse.isError) {
     return <Error />;
   }
+
+  if (TaskStoreInstanse.isLoading) {
+    return (
+      <Stack direction="row" justifyContent="center" margin="3rem 0 3rem 0" width="100%">
+        <CircularProgress size={100} />
+      </Stack>
+    );
+  }
+
   return (
-    <Loader isLoading={TaskStoreInstanse.isLoading} variant="circle">
+    <>
       {TaskStoreInstanse.tasks.length ? (
-        <ul className="list-group todo-list mb-3">
+        <Stack component="ul" direction="column" padding="0" spacing={2} mt={2}>
           {TaskStoreInstanse.tasks.map((task) => (
-            <li key={task.id} className="list-group-item">
-              <Task
-                task={task}
-                onDelTask={TaskStoreInstanse.delTask}
-                onTaskComplete={TaskStoreInstanse.changeTaskComplete}
-                onTaskIsImportant={TaskStoreInstanse.changeTaskIsImportant}
-              />
-            </li>
+            <Task
+              key={task.id}
+              task={task}
+              onDelTask={TaskStoreInstanse.delTask}
+              onTaskComplete={TaskStoreInstanse.changeTaskComplete}
+              onTaskIsImportant={TaskStoreInstanse.changeTaskIsImportant}
+            />
           ))}
-        </ul>
+        </Stack>
       ) : (
         <p className="text-center d-block text-secondary">Задач не найдено</p>
       )}
-    </Loader>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { memo, MouseEvent } from 'react';
+import { Button, ButtonGroup } from '@mui/material';
 import { StatusFilterProps } from './StatusFilte.types';
 import { StatusFilterTypes } from 'domains/index';
 import { STATUS_FILTER_TYPES } from 'constants/index';
@@ -8,25 +9,25 @@ function StatusFilterComponent({ onChange, activeFilter, disabled }: StatusFilte
     if (!disabled) onChange(evt.target.textContent as StatusFilterTypes);
   };
 
-  const setClass = (filterType: StatusFilterTypes) => {
-    return activeFilter === filterType ? 'btn btn-info' : 'btn btn-outline-secondary';
+  const setActive = (filterType: StatusFilterTypes) => {
+    return activeFilter === filterType ? 'contained' : 'outlined';
   };
 
   return (
-    <div className="btn-group" onClick={statusFilterChange}>
-      <button type="button" className={setClass(STATUS_FILTER_TYPES.ALL)}>
+    <ButtonGroup onClick={statusFilterChange}>
+      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.ALL)}>
         All
-      </button>
-      <button type="button" className={setClass(STATUS_FILTER_TYPES.ACTIVE)}>
+      </Button>
+      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.ACTIVE)}>
         Active
-      </button>
-      <button type="button" className={setClass(STATUS_FILTER_TYPES.DONE)}>
+      </Button>
+      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.DONE)}>
         Done
-      </button>
-      <button type="button" className={setClass(STATUS_FILTER_TYPES.IMPORTANT)}>
+      </Button>
+      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.IMPORTANT)}>
         Important
-      </button>
-    </div>
+      </Button>
+    </ButtonGroup>
   );
 }
 

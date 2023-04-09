@@ -7,8 +7,8 @@ export const EditTaskPage = () => {
   const { taskId } = useParams();
 
   return (
-    <PageContainer className="addTaskPage">
-      <Title>Todo list | Edit Task {taskId}</Title>
+    <PageContainer>
+      <Title>Todo list | Edit Task №{taskId}</Title>
       <EditTaskForm />
     </PageContainer>
   );
