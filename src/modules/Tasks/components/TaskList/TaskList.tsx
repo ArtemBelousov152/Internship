@@ -1,10 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Stack, CircularProgress } from '@mui/material';
+import { Stack, Skeleton, Typography } from '@mui/material';
 import { Task } from '../Task';
 import { TaskStoreInstanse } from '../../store';
 import { Error } from 'components/index';
-import './Task.css';
 
 function TaskListComponent() {
   if (TaskStoreInstanse.isError) {
@@ -13,8 +12,10 @@ function TaskListComponent() {
 
   if (TaskStoreInstanse.isLoading) {
     return (
-      <Stack direction="row" justifyContent="center" margin="3rem 0 3rem 0" width="100%">
-        <CircularProgress size={100} />
+      <Stack mt={2} mb={2} spacing={2}>
+        <Skeleton height={100} variant="rounded" />
+        <Skeleton height={100} variant="rounded" />
+        <Skeleton height={100} variant="rounded" />
       </Stack>
     );
   }
@@ -34,7 +35,9 @@ function TaskListComponent() {
           ))}
         </Stack>
       ) : (
-        <p className="text-center d-block text-secondary">Задач не найдено</p>
+        <Typography component="h3" textAlign="center" mt={2} mb={2}>
+          Задач не найдено
+        </Typography>
       )}
     </>
   );

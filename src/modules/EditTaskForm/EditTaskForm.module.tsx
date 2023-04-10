@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { Checkbox, FormControlLabel, Button, TextField, Stack, CircularProgress } from '@mui/material';
 import { DEFAULT_VALUES, VALIDATION_SCHEMA } from './EditTaskForm.constants';
 import { EditTaskStoreInstanse } from './store';
-import { Loader, Error } from 'components/index';
+import { Error } from 'components/index';
 import { EditTaskEntity } from 'domains/index';
 import { PATH_LIST } from 'constants/index';
 
@@ -66,7 +66,6 @@ function EditTaskFormComponent() {
     return <Error />;
   }
 
-  // eslint-disable-next-line no-constant-condition
   if (EditTaskStoreInstanse.isLoading) {
     return (
       <Stack direction="row" justifyContent="center" margin="3rem 0 3rem 0" width="100%">
@@ -92,6 +91,7 @@ function EditTaskFormComponent() {
           />
         )}
       />
+
       <Controller
         control={control}
         name="info"
@@ -107,6 +107,7 @@ function EditTaskFormComponent() {
           />
         )}
       />
+
       <Controller
         control={control}
         name="isImportant"
@@ -118,6 +119,7 @@ function EditTaskFormComponent() {
             label="Important"></FormControlLabel>
         )}
       />
+
       <Controller
         control={control}
         name="isCompleted"
@@ -128,6 +130,7 @@ function EditTaskFormComponent() {
             label="Complete"></FormControlLabel>
         )}
       />
+
       <Button variant="contained" color="inherit" type="submit">
         Edit Task
       </Button>

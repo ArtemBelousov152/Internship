@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardContent, ButtonGroup, Stack, Button } from '@mui/material';
+import { CardContent, ButtonGroup, Stack, Button, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
@@ -25,16 +25,22 @@ export function Task({ task, onDelTask, onTaskComplete, onTaskIsImportant }: Tas
     <TaskCard component="li">
       <CardContent>
         <Stack component="div" direction="row" justifyContent="space-between" marginBottom={2}>
-          <TaskTypography color={isImportant ? 'green' : 'black'} width={350} isCompleted={isCompleted} component="h3">
+          <TaskTypography
+            color={isImportant ? 'green' : 'black'}
+            width={350}
+            completed={isCompleted ? 'true' : ''}
+            component="h3">
             {name}
           </TaskTypography>
+
           <ButtonGroup size="small">
             <Button
               variant={isImportant ? 'contained' : 'outlined'}
               color="success"
               onClick={onBtnImportantClick}
               type="button"
-              disabled={isCompleted}>
+              disabled={isCompleted}
+              aria-label="setImportant">
               <PriorityHighIcon />
             </Button>
 
@@ -42,19 +48,22 @@ export function Task({ task, onDelTask, onTaskComplete, onTaskIsImportant }: Tas
               color="error"
               variant={isCompleted ? 'contained' : 'outlined'}
               onClick={onBtnCompleteClick}
-              type="button">
+              type="button"
+              aria-label="setComplete">
               <CheckIcon />
             </Button>
 
-            <Button color="error" onClick={onBtnDeleteClick} type="button">
+            <Button color="error" onClick={onBtnDeleteClick} type="button" aria-label="delete">
               <DeleteIcon />
             </Button>
-            <Button color="info" type="button" onClick={onBtnEditClick}>
+
+            <Button color="info" type="button" onClick={onBtnEditClick} aria-label="edit">
               <EditIcon />
             </Button>
           </ButtonGroup>
         </Stack>
-        <TaskTypography color={isImportant ? 'green' : 'black'} isCompleted={isCompleted} component="p">
+
+        <TaskTypography color={isImportant ? 'green' : 'black'} completed={isCompleted ? 'true' : ''} component="p">
           {info}
         </TaskTypography>
       </CardContent>

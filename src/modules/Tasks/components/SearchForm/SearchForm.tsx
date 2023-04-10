@@ -6,7 +6,6 @@ import { StatusFilter } from '../StatusFilter';
 import { TaskStoreInstanse } from '../../store';
 import { DEFAULT_VALUE } from './SearchForm.constants';
 import { SearchInput } from 'components/index';
-import './SearchForm.css';
 import { SearchFormEntity, StatusFilterTypes } from 'domains/index';
 
 function SearchFormComponent() {

@@ -6,8 +6,8 @@ export const TaskCard = styled(Card)({
   width: '100%',
 }) as typeof Card;
 
-export const TaskTypography = styled(Typography)<TypographyProps & { component?: ElementType }>(({ isCompleted }) => ({
-  textDecoration: isCompleted ? 'line-through' : 'none',
+export const TaskTypography = styled(Typography)<TypographyProps & { component?: ElementType }>(({ completed }) => ({
+  textDecoration: completed ? 'line-through' : 'none',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
 }));

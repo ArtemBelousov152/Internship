@@ -4,7 +4,7 @@ import { TitleProps } from './Title.types';
 
 function TitleComponent({ children }: TitleProps) {
   return (
-    <Typography component="h1" variant="h3" style={{ textTransform: 'uppercase', textAlign: 'center' }}>
+    <Typography component="h1" variant="h3" textTransform="uppercase" textAlign="center">
       {children}
     </Typography>
   );

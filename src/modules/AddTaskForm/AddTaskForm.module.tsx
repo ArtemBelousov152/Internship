@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { Checkbox, FormControlLabel, Button, TextField, Stack, CircularProgress } from '@mui/material/';
 import { AddTaskFormInstanse } from './store';
 import { DEFAULT_VALUE, VALIDATION_SCHEMA } from './AddTaskForm.constants';
-import { Error, Loader } from 'components/index';
+import { Error } from 'components/index';
 import { NewTaskEntity } from 'domains/index';
 import { PATH_LIST } from 'constants/index';
 
@@ -56,6 +56,7 @@ function AddTaskFormComponent() {
           />
         )}
       />
+
       <Controller
         control={control}
         name="info"
@@ -71,13 +72,21 @@ function AddTaskFormComponent() {
           />
         )}
       />
+
       <Controller
         control={control}
         name="isImportant"
         render={({ field }) => (
           <FormControlLabel
             style={{ alignSelf: 'flex-start' }}
-            control={<Checkbox style={{ padding: '0 5px 0 0' }} checked={field.value} onChange={onTaskIsImportant} />}
+            control={
+              <Checkbox
+                color="success"
+                style={{ padding: '0 5px 0 0' }}
+                checked={field.value}
+                onChange={onTaskIsImportant}
+              />
+            }
             label="Important"></FormControlLabel>
         )}
       />

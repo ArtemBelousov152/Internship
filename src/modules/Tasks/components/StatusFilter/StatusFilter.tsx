@@ -14,17 +14,17 @@ function StatusFilterComponent({ onChange, activeFilter, disabled }: StatusFilte
   };
 
   return (
-    <ButtonGroup onClick={statusFilterChange}>
-      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.ALL)}>
+    <ButtonGroup color="info" onClick={statusFilterChange} disabled={disabled}>
+      <Button type="button" variant={setActive(STATUS_FILTER_TYPES.ALL)} aria-label="all">
         All
       </Button>
-      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.ACTIVE)}>
+      <Button type="button" variant={setActive(STATUS_FILTER_TYPES.ACTIVE)} aria-label="active">
         Active
       </Button>
-      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.DONE)}>
+      <Button type="button" variant={setActive(STATUS_FILTER_TYPES.DONE)} aria-label="done">
         Done
       </Button>
-      <Button color="info" type="button" variant={setActive(STATUS_FILTER_TYPES.IMPORTANT)}>
+      <Button type="button" variant={setActive(STATUS_FILTER_TYPES.IMPORTANT)} aria-label="important">
         Important
       </Button>
     </ButtonGroup>

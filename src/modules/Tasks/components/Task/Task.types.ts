@@ -8,5 +8,5 @@ export interface TaskProps {
 }
 
 export interface TypographyProps {
-  isCompleted: boolean;
+  completed: string;
 }

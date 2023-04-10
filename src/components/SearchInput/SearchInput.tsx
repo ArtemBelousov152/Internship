@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler, MouseEvent } from 'react';
-import './SearchInput.css';
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
 import { SearchInputProps } from './SearchInput.types';
 
 export function SearchInput({ onChange, value, onReset, disabled }: SearchInputProps) {
@@ -11,17 +12,21 @@ export function SearchInput({ onChange, value, onReset, disabled }: SearchInputP
   };
 
   return (
-    <div className="search-panel">
-      <input
-        disabled={disabled}
-        className="form-control search-input"
-        placeholder="search"
+    <FormControl size="small" variant="outlined" disabled={disabled}>
+      <InputLabel htmlFor="outlined">search</InputLabel>
+      <OutlinedInput
+        id="outlined"
         onChange={onSearchInputChange}
         value={value}
+        label="search"
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton color="inherit" size="small" disabled={disabled} onClick={onResetBtnClick} aria-label="reset">
+              <CloseIcon />
+            </IconButton>
+          </InputAdornment>
+        }
       />
-      <button disabled={disabled} className="close" onClick={onResetBtnClick}>
-        <i className="fa fa-close"></i>
-      </button>
-    </div>
+    </FormControl>
   );
 }
