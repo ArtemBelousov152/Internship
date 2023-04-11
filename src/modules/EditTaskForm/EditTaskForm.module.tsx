@@ -69,7 +69,7 @@ function EditTaskFormComponent() {
   if (EditTaskStoreInstanse.isLoading) {
     return (
       <Stack direction="row" justifyContent="center" margin="3rem 0 3rem 0" width="100%">
-        <CircularProgress size={100} />
+        <CircularProgress color="inherit" size={100} />
       </Stack>
     );
   }
@@ -82,8 +82,8 @@ function EditTaskFormComponent() {
         render={({ field, fieldState: { error } }) => (
           <TextField
             fullWidth
-            label="TaskName"
-            placeholder="Clean room"
+            label="Name"
+            placeholder="Enter a task name"
             value={field.value}
             onChange={onNameTaskChange}
             helperText={error?.message}
@@ -98,8 +98,8 @@ function EditTaskFormComponent() {
         render={({ field, fieldState: { error } }) => (
           <TextField
             fullWidth
-            label="TaskName"
-            placeholder="Clean room"
+            label="Description"
+            placeholder="Enter a description of the task"
             value={field.value}
             onChange={onInfoTaskChange}
             helperText={error?.message}
@@ -114,7 +114,6 @@ function EditTaskFormComponent() {
         render={({ field }) => (
           <FormControlLabel
             disabled={isCompletedWatch}
-            style={{ alignSelf: 'flex-start' }}
             control={<Checkbox color="success" checked={field.value} onChange={onTaskIsImportant} />}
             label="Important"></FormControlLabel>
         )}
@@ -125,7 +124,6 @@ function EditTaskFormComponent() {
         name="isCompleted"
         render={({ field }) => (
           <FormControlLabel
-            style={{ alignSelf: 'flex-start' }}
             control={<Checkbox color="error" checked={field.value} onChange={onTaskIsCompleted} />}
             label="Complete"></FormControlLabel>
         )}

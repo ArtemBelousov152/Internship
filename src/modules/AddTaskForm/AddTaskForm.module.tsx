@@ -34,7 +34,7 @@ function AddTaskFormComponent() {
   if (AddTaskFormInstanse.isLoading) {
     return (
       <Stack direction="row" justifyContent="center" margin="3rem 0 3rem 0" width="100%">
-        <CircularProgress size={100} />
+        <CircularProgress color="inherit" size={100} />
       </Stack>
     );
   }
@@ -47,8 +47,8 @@ function AddTaskFormComponent() {
         render={({ field, fieldState: { error } }) => (
           <TextField
             fullWidth
-            label="Название задачи"
-            placeholder="Убраться в комнате"
+            label="Name"
+            placeholder="Enter a task name"
             value={field.value}
             onChange={onNameTaskChange}
             helperText={error?.message}
@@ -63,8 +63,8 @@ function AddTaskFormComponent() {
         render={({ field, fieldState: { error } }) => (
           <TextField
             fullWidth
-            label="Описание задачи"
-            placeholder="Убраться в комнате"
+            label="Description"
+            placeholder="Enter a description of the task"
             value={field.value}
             onChange={onInfoTaskChange}
             helperText={error?.message}
@@ -78,7 +78,6 @@ function AddTaskFormComponent() {
         name="isImportant"
         render={({ field }) => (
           <FormControlLabel
-            style={{ alignSelf: 'flex-start' }}
             control={
               <Checkbox
                 color="success"

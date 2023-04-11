@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { TaskPage, EditTaskPage, AddTaskPage } from 'pages/index';
+import { TaskPage, EditTaskPage, AddTaskPage, ErrorPage } from 'pages/index';
 import { PATH_LIST } from 'constants/index';
 
 export const Router = () => {
@@ -9,6 +9,7 @@ export const Router = () => {
       <Route path={PATH_LIST.ROOT} element={<TaskPage />} />
       <Route path={PATH_LIST.EDIT} element={<EditTaskPage />} />
       <Route path={PATH_LIST.ADD} element={<AddTaskPage />} />
+      <Route path={PATH_LIST.ERROR} element={<ErrorPage />} />
     </Routes>
   );
 };

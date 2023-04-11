@@ -13,12 +13,12 @@ export function SearchInput({ onChange, value, onReset, disabled }: SearchInputP
 
   return (
     <FormControl size="small" variant="outlined" disabled={disabled}>
-      <InputLabel htmlFor="outlined">search</InputLabel>
+      <InputLabel htmlFor="outlined">Search</InputLabel>
       <OutlinedInput
         id="outlined"
         onChange={onSearchInputChange}
         value={value}
-        label="search"
+        label="Search"
         endAdornment={
           <InputAdornment position="end">
             <IconButton color="inherit" size="small" disabled={disabled} onClick={onResetBtnClick} aria-label="reset">

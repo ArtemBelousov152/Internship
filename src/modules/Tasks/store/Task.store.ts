@@ -3,7 +3,7 @@ import { PrivateFields } from './Task.store.types';
 import { SearchFormEntity, TaskEntity, TasksStatsEntity } from 'domains/index';
 import { TaskAgentInstance } from 'http/index';
 import { TaskStatsCalc, FormatUrlParams, NormalizeTasks } from 'helpers/index';
-import { STATUS_FILTER_TYPES } from 'constants/statusFiltersTypes';
+import { STATUS_FILTER_TYPES } from 'constants/index';
 
 class TaskStore {
   constructor() {
@@ -60,10 +60,8 @@ class TaskStore {
       ? await TaskAgentInstance.getTasks(FormatUrlParams(searchParams))
       : await TaskAgentInstance.getTasks();
 
-    return {
-      tasks: NormalizeTasks(result),
-      taskStats: TaskStatsCalc(result),
-    };
+    this._tasks = NormalizeTasks(result);
+    this._taskStats = TaskStatsCalc(result);
   }
 
   async loadTasks(searchParams?: SearchFormEntity) {
@@ -75,10 +73,7 @@ class TaskStore {
         this._searchParams = searchParams;
       }
 
-      const { taskStats, tasks } = await this.getTasks(searchParams);
-
-      this._tasks = tasks;
-      this._taskStats = taskStats;
+      await this.getTasks(searchParams);
     } catch {
       this._isError = true;
     } finally {
@@ -92,10 +87,8 @@ class TaskStore {
 
     try {
       await TaskAgentInstance.deleteTask(id);
-      const { taskStats, tasks } = await this.getTasks(this._searchParams);
 
-      this._tasks = tasks;
-      this._taskStats = taskStats;
+      await this.getTasks(this._searchParams);
     } catch {
       this._isError = true;
     } finally {
@@ -111,10 +104,7 @@ class TaskStore {
       await TaskAgentInstance.patchTask(id, { isCompleted: !prevStatus });
       await TaskAgentInstance.patchTask(id, { isImportant: false });
 
-      const { taskStats, tasks } = await this.getTasks(this._searchParams);
-
-      this._tasks = tasks;
-      this._taskStats = taskStats;
+      await this.getTasks(this._searchParams);
     } catch {
       this._isError = true;
     } finally {
@@ -128,10 +118,8 @@ class TaskStore {
 
     try {
       await TaskAgentInstance.patchTask(id, { isImportant: !prevStatus });
-      const { taskStats, tasks } = await this.getTasks(this._searchParams);
 
-      this._tasks = tasks;
-      this._taskStats = taskStats;
+      await this.getTasks(this._searchParams);
     } catch {
       this._isError = true;
     } finally {
